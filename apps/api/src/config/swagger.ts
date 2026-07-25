@@ -1,7 +1,6 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
 import yaml from 'yaml';
 
@@ -24,20 +23,27 @@ const resolveOpenApiPath = (): string => {
   throw new Error('OpenAPI spec not found');
 };
 
+const mountSwaggerUi = async (router: express.Router): Promise<void> => {
+  const openApiPath = resolveOpenApiPath();
+  const fileContents = fs.readFileSync(openApiPath, 'utf8');
+  const openApiDocument = yaml.parse(fileContents) as Record<string, unknown>;
+  const swaggerUi = (await import('swagger-ui-express')).default;
+
+  router.use(swaggerUi.serve, swaggerUi.setup(openApiDocument));
+};
+
+/** Registers `/api-docs` immediately; loads swagger-ui in the background. */
 const setupSwagger = (app: express.Application): void => {
   if (NODE_ENV === 'production') {
     return;
   }
 
-  try {
-    const openApiPath = resolveOpenApiPath();
-    const fileContents = fs.readFileSync(openApiPath, 'utf8');
-    const openApiDocument = yaml.parse(fileContents) as Record<string, unknown>;
+  const router = express.Router();
+  app.use('/api-docs', router);
 
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
-  } catch (error) {
+  void mountSwaggerUi(router).catch((error: unknown) => {
     logger.error({ err: error }, 'Failed to load OpenAPI spec');
-  }
+  });
 };
 
 export default setupSwagger;

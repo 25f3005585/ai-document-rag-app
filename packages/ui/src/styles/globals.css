@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+/* `tailwindcss` is imported by the app (apps/web) so PostCSS resolves it from the app. */
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 

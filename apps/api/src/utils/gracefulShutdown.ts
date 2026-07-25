@@ -1,6 +1,5 @@
 import { Server } from 'http';
 
-import { disconnectDb } from '../db/index.js';
 import { logger } from './logger.js';
 
 const closeServer = (server: Server): Promise<void> => {
@@ -24,6 +23,7 @@ export const setupGracefulShutdown = (server: Server): void => {
       try {
         await closeServer(server);
         logger.info('HTTP server closed');
+        const { disconnectDb } = await import('../db/index.js');
         await disconnectDb();
         logger.info('All connections closed, exiting process');
         process.exit(0);

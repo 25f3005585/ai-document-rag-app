@@ -13,7 +13,6 @@ import {
 import { db } from '../../db/index.js';
 import * as schema from '../../db/schema/index.js';
 import { AUTH_RATE_LIMIT } from './rate-limit.js';
-import { sendResetPasswordEmailMessage, sendVerificationEmailMessage } from './send-email.js';
 import { AUTH_SESSION } from './session.js';
 
 const googleConfigured = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
@@ -33,6 +32,7 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
+      const { sendResetPasswordEmailMessage } = await import('./send-email.js');
       await sendResetPasswordEmailMessage(user.email, url);
     },
   },
@@ -41,6 +41,7 @@ export const auth = betterAuth({
     sendOnSignIn: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
+      const { sendVerificationEmailMessage } = await import('./send-email.js');
       await sendVerificationEmailMessage(user.email, url);
     },
   },
