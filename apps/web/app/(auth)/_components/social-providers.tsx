@@ -50,7 +50,7 @@ export function SocialProviders({ mode, callbackUrl = DEFAULT_REDIRECT_PATH }: S
         type="button"
         onClick={handleGoogleLogin}
         disabled={isLoading}
-        className={authButtonClass}
+        className={`${authButtonClass} gap-2.5`}
       >
         {isLoading ? (
           <span className="border-current size-4 animate-spin rounded-full border-2 border-t-transparent" />

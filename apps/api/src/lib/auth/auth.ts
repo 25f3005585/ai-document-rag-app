@@ -11,7 +11,7 @@ import {
   WEB_URL,
 } from '../../config/env.js';
 import { authDb } from './mongo-client.js';
-import { sendVerificationEmailMessage } from './send-email.js';
+import { sendResetPasswordEmailMessage, sendVerificationEmailMessage } from './send-email.js';
 
 const googleConfigured = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
 
@@ -24,6 +24,10 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword: ({ user, url }) => {
+      sendResetPasswordEmailMessage(user.email, url);
+      return Promise.resolve();
+    },
   },
   emailVerification: {
     sendOnSignUp: true,

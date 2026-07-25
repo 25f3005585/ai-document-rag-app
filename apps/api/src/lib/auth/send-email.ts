@@ -50,3 +50,24 @@ export const sendVerificationEmailMessage = (to: string, url: string): void => {
     `,
   });
 };
+
+export const sendResetPasswordEmailMessage = (to: string, url: string): void => {
+  sendEmail({
+    to,
+    subject: 'Reset your AskDocs password',
+    text: `Reset your AskDocs password using this link: ${url}`,
+    html: `
+      <div style="font-family: sans-serif; line-height: 1.5;">
+        <h1>Reset your password</h1>
+        <p>We received a request to reset your AskDocs password.</p>
+        <p>
+          <a href="${url}" style="display:inline-block;padding:10px 16px;background:#111;color:#fff;text-decoration:none;border-radius:6px;">
+            Reset password
+          </a>
+        </p>
+        <p style="color:#666;font-size:12px;">Or copy this link: ${url}</p>
+        <p style="color:#666;font-size:12px;">If you did not request this, you can ignore this email.</p>
+      </div>
+    `,
+  });
+};

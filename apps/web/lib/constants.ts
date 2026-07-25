@@ -4,9 +4,17 @@ export const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000
 export const DEFAULT_REDIRECT_PATH = '/';
 export const DEFAULT_AUTH_REDIRECT_PATH = '/login';
 export const VERIFY_EMAIL_PATH = '/verify-email';
+export const FORGOT_PASSWORD_PATH = '/forgot-password';
+export const RESET_PASSWORD_PATH = '/reset-password';
 
 /** Auth routes — accessible without a session; redirect away when already logged in. */
-export const AUTH_PATHS = ['/login', '/signup', '/verify-email'] as const;
+export const AUTH_PATHS = [
+  '/login',
+  '/signup',
+  '/verify-email',
+  '/forgot-password',
+  '/reset-password',
+] as const;
 
 export type AuthPath = (typeof AUTH_PATHS)[number];
 

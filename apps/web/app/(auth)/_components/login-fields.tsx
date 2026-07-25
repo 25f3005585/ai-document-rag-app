@@ -3,6 +3,7 @@
 import { Button } from '@repo/ui/components/button';
 import { Checkbox } from '@repo/ui/components/checkbox';
 import { Label } from '@repo/ui/components/label';
+import Link from 'next/link';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import { AuthPasswordFieldShell, AuthTextField } from '@/app/(auth)/_components/auth-text-field';
@@ -54,18 +55,26 @@ export function LoginFields({
         />
       </AuthPasswordFieldShell>
 
-      <div className="flex items-center gap-2">
-        <Checkbox
-          id="remember-me"
-          checked={rememberMe}
-          onCheckedChange={(value) => {
-            onRememberMeChange(value === true);
-          }}
-          disabled={isLoading}
-        />
-        <Label htmlFor="remember-me" className={`${authLabelClass} font-normal`}>
-          Remember me
-        </Label>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="remember-me"
+            checked={rememberMe}
+            onCheckedChange={(value) => {
+              onRememberMeChange(value === true);
+            }}
+            disabled={isLoading}
+          />
+          <Label htmlFor="remember-me" className={`${authLabelClass} font-normal`}>
+            Remember me
+          </Label>
+        </div>
+        <Link
+          href="/forgot-password"
+          className={`${authLabelClass} font-medium underline-offset-4 hover:underline`}
+        >
+          Forgot password?
+        </Link>
       </div>
 
       <FormErrorBanner message={loginError} />
