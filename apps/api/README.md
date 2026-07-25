@@ -1,6 +1,6 @@
 # Express API Server
 
-Production-ready Express.js API with TypeScript, MongoDB, and comprehensive security.
+Production-ready Express.js API with TypeScript, Drizzle/PostgreSQL, and comprehensive security.
 
 ## Quick Start
 
@@ -19,8 +19,8 @@ Server runs on `http://localhost:5001`
 | Node.js    | 18+     | Runtime (ES Modules) |
 | Express    | 5.x     | Web framework        |
 | TypeScript | 6.x     | Strict typing        |
-| MongoDB    | 6+      | Database             |
-| Mongoose   | 8.x     | ODM                  |
+| PostgreSQL | 15+     | Database (e.g. Neon) |
+| Drizzle    | 0.45.x  | ORM                  |
 | Zod        | 4.x     | Validation           |
 | Pino       | 10.x    | Logging              |
 
@@ -29,7 +29,7 @@ Server runs on `http://localhost:5001`
 - **Security**: Helmet (CSP, HSTS), Input Sanitization, Security Monitoring
 - **Rate Limiting**: 400 requests/15min (configurable)
 - **Request Timeout**: 60 seconds
-- **Database Pooling**: 50 max, 5 min connections
+- **Database Pooling**: Configurable via `DATABASE_POOL_MAX` (postgres.js)
 - **Error Handling**: RFC 7807 Problem Details format
 - **Logging**: Pino (pretty in dev, JSON in prod)
 - **Trace IDs**: Request tracing across logs
@@ -39,11 +39,12 @@ Server runs on `http://localhost:5001`
 
 ```
 src/
-├── config/           # env, database, middlewares config
+├── config/           # env, middlewares config
 ├── controllers/     # Route handlers (MVC)
 ├── core/errors/     # AppError, errorCodes
 ├── core/responses/ # SuccessResponse
 ├── core/validation/schemas/  # Zod schemas
+├── db/             # Drizzle client + schema
 ├── middlewares/    # Security, validation, logging
 ├── routes/         # Express routes
 ├── services/       # Business logic
@@ -91,24 +92,27 @@ src/
 
 ## Environment Variables
 
-| Variable                  | Default                               | Description        |
-| ------------------------- | ------------------------------------- | ------------------ |
-| `PORT`                    | 5001                                  | Server port        |
-| `NODE_ENV`                | development                           | Environment        |
-| `MONGO_URI`               | mongodb://localhost:27017/express-app | MongoDB            |
-| `ALLOWED_ORIGINS`         | localhost:3000,localhost:3001         | CORS origins       |
-| `RATE_LIMIT_MAX_REQUESTS` | 400                                   | Max requests/15min |
-| `MONGO_MAX_POOL_SIZE`     | 50                                    | Max DB connections |
-| `MONGO_MIN_POOL_SIZE`     | 5                                     | Min DB connections |
+| Variable                  | Default                       | Description          |
+| ------------------------- | ----------------------------- | -------------------- |
+| `PORT`                    | 5001                          | Server port          |
+| `NODE_ENV`                | development                   | Environment          |
+| `DATABASE_URL`            | (required)                    | PostgreSQL URL       |
+| `DATABASE_POOL_MAX`       | 10                            | Max pool connections |
+| `ALLOWED_ORIGINS`         | localhost:3000,localhost:3001 | CORS origins         |
+| `RATE_LIMIT_MAX_REQUESTS` | 400                           | Max requests/15min   |
 
 ## Scripts
 
 ```bash
-npm run dev       # Development (hot reload)
-npm run build    # TypeScript build
-npm start        # Production server
-npm run lint     # ESLint check
-npm run format  # Prettier format
+pnpm dev          # Development (hot reload)
+pnpm build        # TypeScript build
+pnpm start        # Production server
+pnpm lint         # ESLint check
+pnpm format       # Prettier format
+pnpm db:push      # Push Drizzle schema to Postgres
+pnpm db:generate  # Generate SQL migrations
+pnpm db:migrate   # Run migrations
+pnpm db:studio    # Drizzle Studio
 ```
 
 ## Testing

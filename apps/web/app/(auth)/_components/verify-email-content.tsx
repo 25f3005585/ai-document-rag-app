@@ -61,7 +61,10 @@ export function VerifyEmailContent({
 
       <p className={`${authHelperClass} text-center`}>
         Already verified?{' '}
-        <Link href="/login" className="text-foreground font-medium underline-offset-4 hover:underline">
+        <Link
+          href="/login"
+          className="text-foreground font-medium underline-offset-4 hover:underline"
+        >
           Sign in
         </Link>
       </p>

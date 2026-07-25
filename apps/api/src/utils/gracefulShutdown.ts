@@ -1,7 +1,6 @@
 import { Server } from 'http';
 
-import { disconnectDb } from '../config/database.js';
-import { disconnectAuthMongo } from '../lib/auth/mongo-client.js';
+import { disconnectDb } from '../db/index.js';
 import { logger } from './logger.js';
 
 const closeServer = (server: Server): Promise<void> => {
@@ -25,7 +24,6 @@ export const setupGracefulShutdown = (server: Server): void => {
       try {
         await closeServer(server);
         logger.info('HTTP server closed');
-        await disconnectAuthMongo();
         await disconnectDb();
         logger.info('All connections closed, exiting process');
         process.exit(0);

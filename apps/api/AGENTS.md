@@ -21,7 +21,7 @@ npm run format
 - **Type**: ES Module (`"type": "module"` in package.json)
 - **Entry**: `src/index.ts`
 - **Express app factory**: `src/app.ts` exports `createApp()`
-- **Database**: MongoDB via Mongoose (`src/config/database.ts`)
+- **Database**: PostgreSQL via Drizzle (`src/db/`) — Better Auth uses `drizzleAdapter`
 
 ## Important Constraints
 
@@ -34,17 +34,19 @@ npm run format
 
 - Uses `tsx` for dev (not ts-node): `"tsx watch src/index.ts"`
 - Uses `rimraf` for cross-platform clean
-- Mongoose 8.x - connection pooling configured (50 max, 5 min)
+- Drizzle + `postgres` (postgres.js) — Neon pooler needs `prepare: false`
+- DB scripts: `pnpm db:push` / `pnpm db:generate` / `pnpm db:migrate` / `pnpm db:studio`
 
 ## Repository Structure
 
 ```
 src/
-├── config/          # env, database, middlewares
+├── config/          # env, middlewares
 ├── controllers/   # route handlers
 ├── core/errors/   # AppError, errorCodes (50+ codes)
 ├── core/responses/ # SuccessResponse
 ├── core/validation/schemas/ # Zod schemas
+├── db/            # Drizzle client + schema
 ├── middlewares/    # validation, sanitize, security
 ├── routes/        # Express routes
 ├── services/     # business logic

@@ -7,7 +7,7 @@ A reusable [Turborepo](https://turborepo.dev) monorepo starter with a Next.js fr
 | Layer    | Tech                                                                    |
 | -------- | ----------------------------------------------------------------------- |
 | Frontend | [Next.js](https://nextjs.org/) (`apps/web`)                             |
-| Backend  | [Express](https://expressjs.com/) + MongoDB (`apps/api`)                |
+| Backend  | [Express](https://expressjs.com/) + Drizzle/PostgreSQL (`apps/api`)     |
 | Monorepo | [Turborepo](https://turborepo.dev) + [pnpm](https://pnpm.io) workspaces |
 | Tooling  | TypeScript, ESLint, Prettier, Husky, lint-staged                        |
 
@@ -79,7 +79,7 @@ On commit, staged files are auto-formatted first; then `validate` checks lint, f
 
 1. Clone or fork this repo
 2. Rename the root `name` in `package.json` to your project name
-3. Update `apps/api/.env` with your MongoDB URI and secrets
+3. Update `apps/api/.env` with your `DATABASE_URL` (Postgres/Neon) and secrets, then run `pnpm --filter api db:push`
 4. Build your features in `apps/web` and `apps/api`
 5. Add shared code under `packages/` as needed
 

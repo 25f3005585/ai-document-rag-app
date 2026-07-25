@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import os from 'os';
 
 import { NODE_ENV, READINESS_MEMORY_THRESHOLD } from '../config/env.js';
 import { AppError } from '../core/errors/AppError.js';
 import { ERROR_CODES } from '../core/errors/errorCodes.js';
 import { SuccessResponse } from '../core/responses/SuccessResponse.js';
+import { isDatabaseHealthy } from '../db/index.js';
 
-export const getHealth = (req: Request, res: Response): Response => {
-  const databaseConnected = mongoose.connection.readyState === mongoose.ConnectionStates.connected;
+export const getHealth = async (req: Request, res: Response): Promise<Response> => {
+  const databaseConnected = await isDatabaseHealthy();
   const memoryUsage = process.memoryUsage();
 
   const payload = {
@@ -42,8 +42,8 @@ export const getLiveness = (req: Request, res: Response): Response => {
   return new SuccessResponse('Service is alive', { status: 'alive' }).send(req, res);
 };
 
-export const getReadiness = (req: Request, res: Response): Response => {
-  const databaseConnected = mongoose.connection.readyState === mongoose.ConnectionStates.connected;
+export const getReadiness = async (req: Request, res: Response): Promise<Response> => {
+  const databaseConnected = await isDatabaseHealthy();
   const memoryUsage = process.memoryUsage();
   const memoryPercent = (memoryUsage.heapUsed / memoryUsage.heapTotal) * 100;
 

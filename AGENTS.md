@@ -34,7 +34,7 @@ Per-package scripts in `apps/web`, `apps/api`, and `packages/ui`:
 
 ```
 apps/web/       Next.js 16 (App Router, React 19, Tailwind CSS v4)
-apps/api/       Express 5 + Mongoose 8 + Zod 4 — entry: src/index.ts
+apps/api/       Express 5 + Drizzle (PostgreSQL) + Zod 4 — entry: src/index.ts
 packages/
   ui/             @repo/ui — shared shadcn/ui components, hooks, theme CSS
   eslint-config/  @repo/eslint-config — base, node, next presets
@@ -50,8 +50,9 @@ packages/
 
 1. `pnpm install` (auto-runs `husky` via `prepare` script to install git hooks)
 2. `cp apps/api/env.example apps/api/.env`
-3. Update `MONGO_URI` in `.env` — must point to a running MongoDB instance.
-4. `pnpm dev`
+3. Set `DATABASE_URL` in `.env` to a PostgreSQL connection string (e.g. Neon pooler URL).
+4. From `apps/api`: `pnpm db:push` to apply the Drizzle schema.
+5. `pnpm dev`
 
 ## Key Conventions
 

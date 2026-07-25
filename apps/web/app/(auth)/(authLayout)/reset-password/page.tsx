@@ -8,7 +8,10 @@ const ResetPasswordPage = async ({ searchParams }: ResetPasswordPageProps) => {
   const params = await searchParams;
 
   return (
-    <ResetPasswordContent token={params.token?.trim() || null} error={params.error?.trim() || null} />
+    <ResetPasswordContent
+      token={params.token?.trim() || null}
+      error={params.error?.trim() || null}
+    />
   );
 };
 

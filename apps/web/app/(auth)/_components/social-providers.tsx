@@ -14,7 +14,10 @@ interface SocialProvidersProps {
   callbackUrl?: string;
 }
 
-export function SocialProviders({ mode, callbackUrl = DEFAULT_REDIRECT_PATH }: SocialProvidersProps) {
+export function SocialProviders({
+  mode,
+  callbackUrl = DEFAULT_REDIRECT_PATH,
+}: SocialProvidersProps) {
   const [isLoading, setIsLoading] = useState(false);
   const actionText = mode === 'login' ? 'Login' : 'Sign up';
 

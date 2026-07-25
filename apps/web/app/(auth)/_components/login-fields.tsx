@@ -7,11 +7,7 @@ import Link from 'next/link';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import { AuthPasswordFieldShell, AuthTextField } from '@/app/(auth)/_components/auth-text-field';
-import {
-  authButtonClass,
-  authFieldsClass,
-  authLabelClass,
-} from '@/app/(auth)/_components/auth-ui';
+import { authButtonClass, authFieldsClass, authLabelClass } from '@/app/(auth)/_components/auth-ui';
 import { FormErrorBanner } from '@/app/(auth)/_components/form-error-banner';
 import { PasswordInput } from '@/app/(auth)/_components/password-input';
 import type { LoginFormData } from '@/lib/validations/auth';

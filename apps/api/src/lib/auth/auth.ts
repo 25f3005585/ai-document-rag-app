@@ -1,5 +1,5 @@
 import { betterAuth } from 'better-auth';
-import { mongodbAdapter } from 'better-auth/adapters/mongodb';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 
 import {
   ALLOWED_ORIGINS,
@@ -10,7 +10,8 @@ import {
   NODE_ENV,
   WEB_URL,
 } from '../../config/env.js';
-import { authDb } from './mongo-client.js';
+import { db } from '../../db/index.js';
+import * as schema from '../../db/schema/index.js';
 import { sendResetPasswordEmailMessage, sendVerificationEmailMessage } from './send-email.js';
 
 const googleConfigured = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
@@ -19,7 +20,10 @@ export const auth = betterAuth({
   appName: 'AskDocs',
   baseURL: BETTER_AUTH_URL,
   secret: BETTER_AUTH_SECRET,
-  database: mongodbAdapter(authDb),
+  database: drizzleAdapter(db, {
+    provider: 'pg',
+    schema,
+  }),
   trustedOrigins: [...new Set([WEB_URL, ...ALLOWED_ORIGINS])],
   emailAndPassword: {
     enabled: true,
