@@ -1,5 +1,5 @@
 {
-  "name": "next-express-starter",
+  "name": "askdocs",
   "private": true,
   "scripts": {
     "build": "turbo run build",
