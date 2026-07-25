@@ -14,7 +14,7 @@ export function CitationChips({ citations }: CitationChipsProps) {
   }
 
   return (
-    <div className="mt-5 border-t border-black/[0.06] pt-4 dark:border-white/[0.08]">
+    <div className="mt-5 border-t border-black/6` pt-4 ddark:border-white/8">
       <p className="text-muted-foreground mb-2.5 text-[11px] font-semibold tracking-[0.08em] uppercase">
         Sources
       </p>

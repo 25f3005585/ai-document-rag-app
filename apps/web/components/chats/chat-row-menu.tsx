@@ -42,7 +42,7 @@ export function ChatRowMenu({ title, visible, onRename, onDelete }: ChatRowMenuP
       <DropdownMenuContent
         align="end"
         sideOffset={6}
-        className="min-w-[9.5rem] rounded-xl p-1 shadow-soft"
+        className="min-w-38 rounded-xl p-1 shadow-soft"
       >
         <DropdownMenuItem
           className={itemClass}

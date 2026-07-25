@@ -50,7 +50,7 @@ export function Composer({
         rows={3}
         maxLength={COMPOSER_MAX_CHARS}
         aria-label="Message"
-        className="text-foreground placeholder:text-muted-foreground max-h-[280px] min-h-[88px] w-full resize-none overflow-y-auto bg-transparent text-[15px] leading-relaxed outline-none disabled:cursor-not-allowed disabled:opacity-60"
+        className="text-foreground placeholder:text-muted-foreground max-h-70 min-h-22 w-full resize-none overflow-y-auto bg-transparent text-[15px] leading-relaxed outline-none disabled:cursor-not-allowed disabled:opacity-60"
         onFocus={() => {
           setFocused(true);
         }}

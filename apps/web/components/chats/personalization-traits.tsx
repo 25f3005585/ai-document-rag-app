@@ -42,7 +42,7 @@ export function PersonalizationTraits({ prefs, onChange }: TraitsProps) {
                 onChange({ [trait.key]: value as TraitOption });
               }}
             >
-              <SelectTrigger size="sm" className="w-[7.5rem] rounded-lg">
+              <SelectTrigger size="sm" className="w-30 rounded-lg">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-xl">
