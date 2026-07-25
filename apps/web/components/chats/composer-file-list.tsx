@@ -10,25 +10,42 @@ type ComposerFileListProps = {
   onRemove: (id: string) => void;
 };
 
+function formatBytes(size: number): string {
+  if (size < 1024) {
+    return `${String(size)} B`;
+  }
+  if (size < 1024 * 1024) {
+    return `${(size / 1024).toFixed(0)} KB`;
+  }
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export function ComposerFileList({ files, disabled = false, onRemove }: ComposerFileListProps) {
   if (files.length === 0) {
     return null;
   }
 
   return (
-    <ul className="mb-2 flex flex-wrap gap-1.5">
+    <ul aria-label="Attached documents" className="mb-3 flex flex-wrap gap-2">
       {files.map(({ id, file }) => (
         <li
           key={id}
-          className="border-border/70 bg-muted/50 text-foreground inline-flex max-w-full items-center gap-1.5 rounded-lg border px-2 py-1 text-[12px]"
+          className="border-border bg-muted/60 text-foreground inline-flex max-w-full items-center gap-2 rounded-xl border px-2.5 py-1.5 text-[12px] shadow-soft"
         >
-          <FileText className="text-muted-foreground size-3.5 shrink-0" aria-hidden />
-          <span className="truncate">{file.name}</span>
+          <span className="bg-background text-muted-foreground flex size-7 shrink-0 items-center justify-center rounded-lg border border-border/70">
+            <FileText className="size-3.5" aria-hidden />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate font-medium leading-tight">{file.name}</span>
+            <span className="text-muted-foreground block text-[11px] leading-tight">
+              {formatBytes(file.size)}
+            </span>
+          </span>
           <button
             type="button"
             disabled={disabled}
             aria-label={`Remove ${file.name}`}
-            className="text-muted-foreground hover:text-foreground rounded p-0.5 disabled:opacity-50"
+            className="text-muted-foreground hover:text-foreground hover:bg-background ml-0.5 rounded-md p-1 transition-colors disabled:opacity-50"
             onClick={() => {
               onRemove(id);
             }}

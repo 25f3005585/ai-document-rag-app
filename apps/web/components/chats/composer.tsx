@@ -36,6 +36,11 @@ export function Composer({
       onDragOver={attachments.onDragOver}
       onDrop={attachments.onDrop}
     >
+      <ComposerFileList
+        files={attachments.files}
+        disabled={disabled}
+        onRemove={attachments.removeFile}
+      />
       <textarea
         ref={field.textareaRef}
         value={field.value}
@@ -56,11 +61,6 @@ export function Composer({
           field.setValue(event.target.value);
         }}
         onKeyDown={field.onKeyDown}
-      />
-      <ComposerFileList
-        files={attachments.files}
-        disabled={disabled}
-        onRemove={attachments.removeFile}
       />
       <ComposerFooter
         valueLength={field.value.length}

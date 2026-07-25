@@ -11,6 +11,7 @@ type ChatStore = {
   generatingChatId: string | null;
   createChat: () => string;
   deleteChat: (chatId: string) => void;
+  renameChat: (chatId: string, title: string) => void;
   sendMessage: (chatId: string, content: string) => Promise<void>;
 };
 
@@ -101,6 +102,16 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       chats: state.chats.filter((chat) => chat.id !== chatId),
       messagesByChatId: omitChatMessages(state.messagesByChatId, chatId),
       generatingChatId: state.generatingChatId === chatId ? null : state.generatingChatId,
+    }));
+  },
+
+  renameChat: (chatId, title) => {
+    const next = title.trim();
+    if (!next) {
+      return;
+    }
+    set((state) => ({
+      chats: touchChat(state.chats, chatId, { title: next, updatedAt: Date.now() }),
     }));
   },
 

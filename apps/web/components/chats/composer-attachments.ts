@@ -9,6 +9,13 @@ export type ComposerFile = {
   file: File;
 };
 
+export type MergeComposerFilesResult = {
+  files: ComposerFile[];
+  added: number;
+  skippedOversize: number;
+  skippedLimit: number;
+};
+
 export function toComposerFiles(list: FileList | File[]): ComposerFile[] {
   return Array.from(list).map((file) => ({
     id: crypto.randomUUID(),
@@ -19,11 +26,29 @@ export function toComposerFiles(list: FileList | File[]): ComposerFile[] {
 export function mergeComposerFiles(
   current: ComposerFile[],
   incoming: ComposerFile[],
-): ComposerFile[] {
+): MergeComposerFilesResult {
   const room = COMPOSER_MAX_FILES - current.length;
   if (room <= 0) {
-    return current;
+    return { files: current, added: 0, skippedOversize: 0, skippedLimit: incoming.length };
   }
-  const accepted = incoming.filter((item) => item.file.size <= COMPOSER_MAX_FILE_BYTES);
-  return [...current, ...accepted.slice(0, room)];
+
+  const withinSize = incoming.filter((item) => item.file.size <= COMPOSER_MAX_FILE_BYTES);
+  const accepted = withinSize.slice(0, room);
+
+  return {
+    files: [...current, ...accepted],
+    added: accepted.length,
+    skippedOversize: incoming.length - withinSize.length,
+    skippedLimit: Math.max(0, withinSize.length - accepted.length),
+  };
+}
+
+export function formatAttachFeedback(added: number, names: string[]): string {
+  if (added === 1 && names[0]) {
+    return `Attached ${names[0]}`;
+  }
+  if (added > 1) {
+    return `Attached ${String(added)} documents`;
+  }
+  return 'Documents attached';
 }

@@ -1,12 +1,34 @@
 'use client';
 
 import { type ChangeEvent, type DragEvent, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 import {
   type ComposerFile,
+  formatAttachFeedback,
   mergeComposerFiles,
   toComposerFiles,
 } from '@/components/chats/composer-attachments';
+
+function notifyAttachResult(
+  added: number,
+  skippedOversize: number,
+  skippedLimit: number,
+  names: string[],
+) {
+  if (added > 0) {
+    toast.success(formatAttachFeedback(added, names));
+  }
+  if (skippedOversize > 0) {
+    toast.error('Some files are larger than 10 MB and were skipped.');
+  }
+  if (skippedLimit > 0) {
+    toast.error('You can attach up to 10 documents.');
+  }
+  if (added === 0 && skippedOversize === 0 && skippedLimit === 0) {
+    toast.error('No documents were attached.');
+  }
+}
 
 function useFileDrag(disabled: boolean, onDropFiles: (files: FileList) => void) {
   const [isDragging, setIsDragging] = useState(false);
@@ -47,19 +69,34 @@ function useFileDrag(disabled: boolean, onDropFiles: (files: FileList) => void) 
 
 export function useComposerAttachments(disabled: boolean) {
   const [files, setFiles] = useState<ComposerFile[]>([]);
+  const filesRef = useRef(files);
   const inputRef = useRef<HTMLInputElement>(null);
+  filesRef.current = files;
 
   const addFiles = (list: FileList | File[]) => {
-    if (!disabled) {
-      setFiles((current) => mergeComposerFiles(current, toComposerFiles(list)));
+    if (disabled) {
+      return;
     }
+    const incoming = toComposerFiles(list);
+    if (incoming.length === 0) {
+      toast.error('No documents were attached.');
+      return;
+    }
+    const result = mergeComposerFiles(filesRef.current, incoming);
+    const names = result.files.slice(filesRef.current.length).map((item) => item.file.name);
+    filesRef.current = result.files;
+    setFiles(result.files);
+    notifyAttachResult(result.added, result.skippedOversize, result.skippedLimit, names);
   };
 
   const removeFile = (id: string) => {
-    setFiles((current) => current.filter((item) => item.id !== id));
+    const next = filesRef.current.filter((item) => item.id !== id);
+    filesRef.current = next;
+    setFiles(next);
   };
 
   const clearFiles = () => {
+    filesRef.current = [];
     setFiles([]);
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -73,10 +110,10 @@ export function useComposerAttachments(disabled: boolean) {
   };
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    if (event.target.files && event.target.files.length > 0) {
       addFiles(event.target.files);
-      event.target.value = '';
     }
+    event.target.value = '';
   };
 
   const drag = useFileDrag(disabled, addFiles);
