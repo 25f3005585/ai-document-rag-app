@@ -22,9 +22,11 @@ export function useForgotPassword() {
     });
 
     if (error) {
-      const message = error.message || 'Failed to send reset email. Please try again.';
+      const message =
+        error.status === 429
+          ? 'Too many reset requests. Please try again in 15 minutes.'
+          : error.message || 'Failed to send reset email. Please try again.';
       setFormError(message);
-      toast.error(message);
       setIsLoading(false);
       return;
     }

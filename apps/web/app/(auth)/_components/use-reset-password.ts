@@ -24,7 +24,6 @@ export function useResetPassword(token: string) {
     if (error) {
       const message = error.message || 'Failed to reset password. Please try again.';
       setFormError(message);
-      toast.error(message);
       setIsLoading(false);
       return;
     }

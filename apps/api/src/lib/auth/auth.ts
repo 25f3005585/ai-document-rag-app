@@ -12,6 +12,7 @@ import {
 } from '../../config/env.js';
 import { db } from '../../db/index.js';
 import * as schema from '../../db/schema/index.js';
+import { AUTH_RATE_LIMIT } from './rate-limit.js';
 import { sendResetPasswordEmailMessage, sendVerificationEmailMessage } from './send-email.js';
 
 const googleConfigured = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
@@ -24,6 +25,7 @@ export const auth = betterAuth({
     provider: 'pg',
     schema,
   }),
+  rateLimit: AUTH_RATE_LIMIT,
   trustedOrigins: [...new Set([WEB_URL, ...ALLOWED_ORIGINS])],
   emailAndPassword: {
     enabled: true,

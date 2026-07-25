@@ -33,7 +33,6 @@ export function useEmailSignup(callbackUrl: string) {
         onError: (ctx) => {
           const message = ctx.error.message || 'Signup failed. Please try again.';
           setSignupError(message);
-          toast.error(message);
           setIsLoading(false);
         },
       },

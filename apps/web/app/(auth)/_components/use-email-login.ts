@@ -44,11 +44,12 @@ export function useEmailLogin({ callbackUrl, rememberMe }: UseEmailLoginOptions)
           }
 
           const message =
-            ctx.error.status === 401
-              ? 'Incorrect email or password.'
-              : ctx.error.message || 'Login failed. Please try again.';
+            ctx.error.status === 429
+              ? 'Too many login attempts. Please try again in 15 minutes.'
+              : ctx.error.status === 401
+                ? 'Incorrect email or password.'
+                : ctx.error.message || 'Login failed. Please try again.';
           setLoginError(message);
-          toast.error(message);
           setIsLoading(false);
         },
       },
