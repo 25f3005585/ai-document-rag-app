@@ -35,7 +35,8 @@ export const ALLOWED_ORIGINS = getEnvVariable(
 
 // Better Auth
 export const BETTER_AUTH_SECRET = getEnvVariable('BETTER_AUTH_SECRET');
-export const BETTER_AUTH_URL = getEnvVariable('BETTER_AUTH_URL', 'http://localhost:5001');
+/** Public auth URL (web origin). Auth is proxied via Next.js so cookies are first-party. */
+export const BETTER_AUTH_URL = getEnvVariable('BETTER_AUTH_URL', 'http://localhost:3000');
 export const WEB_URL = getEnvVariable('WEB_URL', 'http://localhost:3000');
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim() ?? '';
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET?.trim() ?? '';

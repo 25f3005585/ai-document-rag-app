@@ -32,16 +32,24 @@ git clone https://github.com/ayushdixit23/turborepo-starter-express-nextjs
 cd turborepo-starter-express-nextjs
 pnpm install
 
-# 2. Configure the API
+# 2. Configure env
 cp apps/api/env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
+# Set DATABASE_URL, BETTER_AUTH_SECRET, RESEND_API_KEY in apps/api/.env
+# Keep BETTER_AUTH_URL=http://localhost:3000 (web proxies /api/* → Express)
 
-# 3. Run everything
+# 3. Apply DB schema (auth tables)
+pnpm --filter api db:push
+
+# 4. Run everything
 pnpm dev
 ```
 
 - Web: [http://localhost:3000](http://localhost:3000)
 - API: [http://localhost:5001](http://localhost:5001)
 - API docs: [http://localhost:5001/api-docs](http://localhost:5001/api-docs)
+
+Auth (Better Auth) runs on the API but is reached via the web origin (`/api/auth/*` rewrite) so session cookies work with Next route guards. Protected API example: `GET /api/me`.
 
 ## Scripts
 

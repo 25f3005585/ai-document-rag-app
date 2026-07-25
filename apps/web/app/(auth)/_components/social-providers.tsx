@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { authButtonClass, authHelperClass } from '@/app/(auth)/_components/auth-ui';
 import { signIn } from '@/lib/auth-client';
-import { DEFAULT_REDIRECT_PATH, toAbsoluteCallbackUrl } from '@/lib/constants';
+import { DEFAULT_REDIRECT_PATH, GOOGLE_AUTH_ENABLED, toAbsoluteCallbackUrl } from '@/lib/constants';
 
 interface SocialProvidersProps {
   mode: 'login' | 'signup';
@@ -20,6 +20,10 @@ export function SocialProviders({
 }: SocialProvidersProps) {
   const [isLoading, setIsLoading] = useState(false);
   const actionText = mode === 'login' ? 'Login' : 'Sign up';
+
+  if (!GOOGLE_AUTH_ENABLED) {
+    return null;
+  }
 
   const handleGoogleLogin = () => {
     void (async () => {

@@ -53,18 +53,14 @@ src/
 
 ## API Endpoints
 
-| Endpoint         | Method | Description             |
-| ---------------- | ------ | ----------------------- |
-| `/`              | GET    | Server info             |
-| `/health`        | GET    | Health + system metrics |
-| `/health/live`   | GET    | Liveness probe          |
-| `/health/ready`  | GET    | Readiness probe         |
-| `/api/data`      | GET    | Sample data             |
-| `/api/users`     | POST   | Create user             |
-| `/api/users/:id` | PUT    | Update user             |
-| `/api/users/:id` | DELETE | Delete user             |
-| `/api/posts`     | GET    | Paginated posts         |
-| `/api/stats`     | GET    | Statistics              |
+| Endpoint        | Method | Description             |
+| --------------- | ------ | ----------------------- |
+| `/`             | GET    | Server info             |
+| `/health`       | GET    | Health + system metrics |
+| `/health/live`  | GET    | Liveness probe          |
+| `/health/ready` | GET    | Readiness probe         |
+| `/api/auth/*`   | ALL    | Better Auth endpoints   |
+| `/api/me`       | GET    | Current session (auth)  |
 
 ## Response Formats
 
