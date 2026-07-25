@@ -1,10 +1,11 @@
 'use client';
 
 import { Button } from '@repo/ui/components/button';
-import { Field, FieldSeparator } from '@repo/ui/components/field';
+import { Separator } from '@repo/ui/components/separator';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import { authButtonClass, authHelperClass } from '@/app/(auth)/_components/auth-ui';
 import { signIn } from '@/lib/auth-client';
 import { DEFAULT_REDIRECT_PATH, toAbsoluteCallbackUrl } from '@/lib/constants';
 
@@ -37,31 +38,34 @@ export function SocialProviders({ mode, callbackUrl = DEFAULT_REDIRECT_PATH }: S
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      <FieldSeparator className="!my-0 h-auto py-1">Or continue with</FieldSeparator>
-      <Field>
-        <Button
-          variant="outline"
-          type="button"
-          onClick={handleGoogleLogin}
-          disabled={isLoading}
-          className="w-full"
-        >
-          {isLoading ? (
-            <span className="border-current size-5 animate-spin rounded-full border-2 border-t-transparent" />
-          ) : (
-            <GoogleIcon />
-          )}
-          <span>{isLoading ? 'Connecting...' : `${actionText} with Google`}</span>
-        </Button>
-      </Field>
+    <div className="flex flex-col gap-4">
+      <div className="relative flex items-center gap-3">
+        <Separator className="flex-1" />
+        <span className={`${authHelperClass} shrink-0`}>Or continue with</span>
+        <Separator className="flex-1" />
+      </div>
+
+      <Button
+        variant="outline"
+        type="button"
+        onClick={handleGoogleLogin}
+        disabled={isLoading}
+        className={authButtonClass}
+      >
+        {isLoading ? (
+          <span className="border-current size-4 animate-spin rounded-full border-2 border-t-transparent" />
+        ) : (
+          <GoogleIcon />
+        )}
+        <span>{isLoading ? 'Connecting...' : `${actionText} with Google`}</span>
+      </Button>
     </div>
   );
 }
 
 function GoogleIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="size-5" aria-hidden>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="size-4" aria-hidden>
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
         fill="#4285F4"

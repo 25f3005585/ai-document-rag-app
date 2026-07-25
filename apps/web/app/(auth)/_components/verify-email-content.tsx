@@ -1,13 +1,13 @@
 'use client';
 
 import { Button } from '@repo/ui/components/button';
-import { Field, FieldGroup } from '@repo/ui/components/field';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { AuthFormFooter } from '@/app/(auth)/_components/auth-form-footer';
 import { AuthFormHeader } from '@/app/(auth)/_components/auth-form-header';
+import { authButtonClass, authFormClass, authHelperClass } from '@/app/(auth)/_components/auth-ui';
 import { sendVerificationEmail } from '@/lib/auth-client';
 import { DEFAULT_REDIRECT_PATH, toAbsoluteCallbackUrl } from '@/lib/constants';
 
@@ -44,31 +44,29 @@ export function VerifyEmailContent({
   };
 
   return (
-    <FieldGroup>
+    <div className={authFormClass}>
       <AuthFormHeader
         title="Verify your email"
         description={`We sent a verification link to ${email || 'your inbox'}. Open it to activate your account.`}
       />
 
-      <Field>
-        <Button
-          type="button"
-          className="w-full"
-          disabled={isLoading || !email}
-          onClick={handleResend}
-        >
-          {isLoading ? 'Sending...' : 'Resend verification email'}
-        </Button>
-      </Field>
+      <Button
+        type="button"
+        className={authButtonClass}
+        disabled={isLoading || !email}
+        onClick={handleResend}
+      >
+        {isLoading ? 'Sending...' : 'Resend verification email'}
+      </Button>
 
-      <p className="text-muted-foreground text-center text-sm">
+      <p className={`${authHelperClass} text-center`}>
         Already verified?{' '}
-        <Link href="/login" className="underline underline-offset-4">
+        <Link href="/login" className="text-foreground font-medium underline-offset-4 hover:underline">
           Sign in
         </Link>
       </p>
 
       <AuthFormFooter text="Wrong email?" linkText="Create another account" linkHref="/signup" />
-    </FieldGroup>
+    </div>
   );
 }

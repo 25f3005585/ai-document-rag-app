@@ -10,11 +10,7 @@ const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
   const email = params.email?.trim() ?? '';
   const callbackUrl = safeCallbackUrl(params.callbackUrl) ?? DEFAULT_REDIRECT_PATH;
 
-  return (
-    <div className="mx-auto w-full max-w-sm">
-      <VerifyEmailContent email={email} callbackUrl={callbackUrl} />
-    </div>
-  );
+  return <VerifyEmailContent email={email} callbackUrl={callbackUrl} />;
 };
 
 export default VerifyEmailPage;

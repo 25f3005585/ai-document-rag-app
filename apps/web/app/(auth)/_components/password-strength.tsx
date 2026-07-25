@@ -1,5 +1,7 @@
 import { Check, X } from 'lucide-react';
 
+import { authHelperClass } from '@/app/(auth)/_components/auth-ui';
+
 interface PasswordStrengthProps {
   password: string;
 }
@@ -17,22 +19,22 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
   }
 
   return (
-    <div className="space-y-2">
+    <ul className={`${authHelperClass} -mt-1 space-y-1.5`}>
       {checks.map((check) => {
         const passed = check.test(password);
         return (
-          <div key={check.key} className="flex items-center gap-2 text-xs">
+          <li key={check.key} className="flex items-center gap-2">
             {passed ? (
-              <Check className="size-4 shrink-0 text-green-500" />
+              <Check className="text-foreground/70 size-3.5 shrink-0" />
             ) : (
-              <X className="text-destructive/70 size-4 shrink-0" />
+              <X className="text-muted-foreground/60 size-3.5 shrink-0" />
             )}
-            <span className={passed ? 'text-green-600 dark:text-green-400' : 'text-destructive'}>
+            <span className={passed ? 'text-foreground/80' : 'text-muted-foreground'}>
               {check.label}
             </span>
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

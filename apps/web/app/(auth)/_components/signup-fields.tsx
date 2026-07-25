@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@repo/ui/components/button';
-import { Field, FieldDescription, FieldLabel } from '@repo/ui/components/field';
-import { Input } from '@repo/ui/components/input';
 import { Check } from 'lucide-react';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
+import { AuthPasswordFieldShell, AuthTextField } from '@/app/(auth)/_components/auth-text-field';
+import { authButtonClass, authFieldsClass } from '@/app/(auth)/_components/auth-ui';
 import { FormErrorBanner } from '@/app/(auth)/_components/form-error-banner';
 import { PasswordInput } from '@/app/(auth)/_components/password-input';
 import { PasswordStrength } from '@/app/(auth)/_components/password-strength';
@@ -31,10 +31,10 @@ export function SignupFields({
   const passwordsMatch = Boolean(password && confirmPassword && password === confirmPassword);
 
   return (
-    <div className="flex flex-col gap-5">
-      <TextField
+    <div className={authFieldsClass}>
+      <AuthTextField
         id="name"
-        label="Full Name"
+        label="Full name"
         type="text"
         placeholder="John Doe"
         autoComplete="name"
@@ -42,7 +42,7 @@ export function SignupFields({
         error={errors.name?.message}
         disabled={isLoading}
       />
-      <TextField
+      <AuthTextField
         id="email"
         label="Email"
         type="email"
@@ -52,106 +52,67 @@ export function SignupFields({
         error={errors.email?.message}
         disabled={isLoading}
       />
-      <Field>
-        <FieldLabel htmlFor="password">Password</FieldLabel>
+      <SignupPasswordFields
+        register={register}
+        errors={errors}
+        password={password}
+        passwordsMatch={passwordsMatch}
+        isLoading={isLoading}
+      />
+      <FormErrorBanner message={signupError} />
+      <Button type="submit" disabled={isLoading} className={authButtonClass}>
+        {isLoading ? 'Creating account...' : 'Create account'}
+      </Button>
+    </div>
+  );
+}
+
+function SignupPasswordFields({
+  register,
+  errors,
+  password,
+  passwordsMatch,
+  isLoading,
+}: {
+  register: UseFormRegister<SignupFormData>;
+  errors: FieldErrors<SignupFormData>;
+  password: string;
+  passwordsMatch: boolean;
+  isLoading: boolean;
+}) {
+  return (
+    <>
+      <AuthPasswordFieldShell id="password" label="Password" error={errors.password?.message}>
         <PasswordInput
           id="password"
           registration={register('password')}
           disabled={isLoading}
           invalid={Boolean(errors.password)}
         />
-        <FieldError message={errors.password?.message} />
-      </Field>
+      </AuthPasswordFieldShell>
       <PasswordStrength password={password} />
-      <ConfirmPasswordField
-        register={register}
-        error={errors.confirmPassword?.message}
-        passwordsMatch={passwordsMatch}
-        isLoading={isLoading}
-      />
-      <FormErrorBanner message={signupError} />
-      <Field className="pt-1">
-        <Button type="submit" disabled={isLoading} className="w-full">
-          {isLoading ? 'Creating Account...' : 'Create Account'}
-        </Button>
-      </Field>
-    </div>
-  );
-}
-
-function FieldError({ message }: { message?: string }) {
-  if (!message) {
-    return null;
-  }
-  return <p className="text-destructive mt-1 text-sm">{message}</p>;
-}
-
-function TextField({
-  id,
-  label,
-  type,
-  placeholder,
-  autoComplete,
-  registration,
-  error,
-  disabled,
-}: {
-  id: string;
-  label: string;
-  type: 'text' | 'email';
-  placeholder: string;
-  autoComplete: string;
-  registration: ReturnType<UseFormRegister<SignupFormData>>;
-  error?: string;
-  disabled: boolean;
-}) {
-  return (
-    <Field>
-      <FieldLabel htmlFor={id}>{label}</FieldLabel>
-      <Input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        {...registration}
-        aria-invalid={error ? 'true' : 'false'}
-        disabled={disabled}
-      />
-      <FieldError message={error} />
-    </Field>
-  );
-}
-
-function ConfirmPasswordField({
-  register,
-  error,
-  passwordsMatch,
-  isLoading,
-}: {
-  register: UseFormRegister<SignupFormData>;
-  error?: string;
-  passwordsMatch: boolean;
-  isLoading: boolean;
-}) {
-  return (
-    <Field>
-      <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
-      <PasswordInput
+      <AuthPasswordFieldShell
         id="confirmPassword"
-        registration={register('confirmPassword')}
-        disabled={isLoading}
-        invalid={Boolean(error)}
-      />
-      {error ? (
-        <FieldError message={error} />
-      ) : passwordsMatch ? (
-        <p className="mt-1 flex items-center gap-1 text-sm text-green-600 dark:text-green-400">
-          <Check className="size-3" />
-          Passwords match
-        </p>
-      ) : (
-        <FieldDescription>Please confirm your password</FieldDescription>
-      )}
-    </Field>
+        label="Confirm password"
+        error={errors.confirmPassword?.message}
+        hint={
+          passwordsMatch ? (
+            <span className="text-foreground/80 inline-flex items-center gap-1">
+              <Check className="size-3" />
+              Passwords match
+            </span>
+          ) : (
+            'Please confirm your password'
+          )
+        }
+      >
+        <PasswordInput
+          id="confirmPassword"
+          registration={register('confirmPassword')}
+          disabled={isLoading}
+          invalid={Boolean(errors.confirmPassword)}
+        />
+      </AuthPasswordFieldShell>
+    </>
   );
 }

@@ -9,11 +9,7 @@ const LoginPage = async ({ searchParams }: LoginPageProps) => {
   const params = await searchParams;
   const callbackUrl = safeCallbackUrl(params.callbackUrl) ?? DEFAULT_REDIRECT_PATH;
 
-  return (
-    <div className="mx-auto w-full max-w-sm">
-      <LoginForm callbackUrl={callbackUrl} />
-    </div>
-  );
+  return <LoginForm callbackUrl={callbackUrl} />;
 };
 
 export default LoginPage;

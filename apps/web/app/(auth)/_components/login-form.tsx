@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { AuthFormFooter } from '@/app/(auth)/_components/auth-form-footer';
 import { AuthFormHeader } from '@/app/(auth)/_components/auth-form-header';
+import { authFormClass } from '@/app/(auth)/_components/auth-ui';
 import { LoginFields } from '@/app/(auth)/_components/login-fields';
 import { SocialProviders } from '@/app/(auth)/_components/social-providers';
 import { useEmailLogin } from '@/app/(auth)/_components/use-email-login';
@@ -36,7 +37,7 @@ export default function LoginForm({
 
   return (
     <form
-      className={cn('flex w-full flex-col gap-8', className)}
+      className={cn(authFormClass, className)}
       onSubmit={(event) => {
         void handleSubmit(onSubmit)(event);
       }}

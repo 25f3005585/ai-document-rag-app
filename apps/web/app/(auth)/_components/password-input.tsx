@@ -5,6 +5,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
+import { authInputClass } from '@/app/(auth)/_components/auth-ui';
+
 interface PasswordInputProps {
   id: string;
   registration: UseFormRegisterReturn;
@@ -31,7 +33,7 @@ export function PasswordInput({
         {...registration}
         aria-invalid={invalid ? 'true' : 'false'}
         disabled={disabled}
-        className="pr-10"
+        className={`${authInputClass} pr-10`}
       />
       <button
         type="button"

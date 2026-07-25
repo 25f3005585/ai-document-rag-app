@@ -1,5 +1,6 @@
-import { Field, FieldDescription } from '@repo/ui/components/field';
 import Link from 'next/link';
+
+import { authHelperClass } from '@/app/(auth)/_components/auth-ui';
 
 interface AuthFormFooterProps {
   text: string;
@@ -9,13 +10,14 @@ interface AuthFormFooterProps {
 
 export function AuthFormFooter({ text, linkText, linkHref }: AuthFormFooterProps) {
   return (
-    <Field>
-      <FieldDescription className="text-center">
-        {text}{' '}
-        <Link href={linkHref} className="underline underline-offset-4">
-          {linkText}
-        </Link>
-      </FieldDescription>
-    </Field>
+    <p className={`${authHelperClass} text-center`}>
+      {text}{' '}
+      <Link
+        href={linkHref}
+        className="text-foreground font-medium underline-offset-4 hover:underline"
+      >
+        {linkText}
+      </Link>
+    </p>
   );
 }

@@ -9,11 +9,7 @@ const SignupPage = async ({ searchParams }: SignupPageProps) => {
   const params = await searchParams;
   const callbackUrl = safeCallbackUrl(params.callbackUrl) ?? DEFAULT_REDIRECT_PATH;
 
-  return (
-    <div className="mx-auto w-full max-w-sm">
-      <SignupForm callbackUrl={callbackUrl} />
-    </div>
-  );
+  return <SignupForm callbackUrl={callbackUrl} />;
 };
 
 export default SignupPage;

@@ -8,8 +8,8 @@ export function FormErrorBanner({ message }: FormErrorBannerProps) {
   }
 
   return (
-    <div className="border-destructive/30 bg-destructive/10 rounded-lg border p-3">
-      <p className="text-destructive text-center text-sm font-medium">{message}</p>
+    <div className="border-destructive/25 bg-destructive/10 rounded-lg border px-3 py-2.5">
+      <p className="text-destructive text-center text-xs leading-relaxed">{message}</p>
     </div>
   );
 }
