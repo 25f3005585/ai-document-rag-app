@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { ChatList } from '@/components/chats/chat-list';
 import { CollapsedSidebarActions, SidebarHeader } from '@/components/chats/sidebar-header';
 import { SidebarUser } from '@/components/chats/sidebar-user';
-import { useChatStore } from '@/lib/chats/store';
 
 type SidebarProps = {
   collapsed?: boolean;
@@ -24,12 +23,10 @@ export function Sidebar({
   className,
 }: SidebarProps) {
   const router = useRouter();
-  const createChat = useChatStore((state) => state.createChat);
 
   const handleNewChat = () => {
-    const id = createChat();
     onNavigate?.();
-    router.push(`/chats/${id}`);
+    router.push('/chats');
   };
 
   return (

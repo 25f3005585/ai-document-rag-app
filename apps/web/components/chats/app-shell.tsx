@@ -29,7 +29,7 @@ export function AppShell({ user, children }: AppShellProps) {
           className={cn(
             'border-sidebar-border bg-sidebar hidden shrink-0 border-r md:flex md:flex-col',
             'transition-[width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[width]',
-            collapsed ? 'w-[72px]' : 'w-[288px]',
+            collapsed ? 'w-18' : 'w-[288px]',
           )}
         />
 

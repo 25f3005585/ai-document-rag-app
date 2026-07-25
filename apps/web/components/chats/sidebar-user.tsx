@@ -1,42 +1,15 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
-import { Button } from '@repo/ui/components/button';
-import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { ThemeToggle } from '@/components/chats/theme-toggle';
+import { AccountMenu } from '@/components/chats/account-menu';
+import { AccountTrigger } from '@/components/chats/account-trigger';
+import { PersonalizationDialog } from '@/components/chats/personalization-dialog';
+import { ProfileDialog } from '@/components/chats/profile-dialog';
 import { useSessionUser } from '@/components/session-user-provider';
 import { signOut } from '@/lib/auth-client';
 import { DEFAULT_AUTH_REDIRECT_PATH } from '@/lib/constants';
-
-function initialsFrom(name?: string | null, email?: string | null): string {
-  const source = name?.trim() || email?.trim() || 'U';
-  const parts = source.split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
-    return `${parts[0]?.[0] ?? ''}${parts[1]?.[0] ?? ''}`.toUpperCase();
-  }
-  return source.slice(0, 2).toUpperCase();
-}
-
-function UserAvatar({
-  image,
-  name,
-  email,
-}: {
-  image?: string | null;
-  name?: string | null;
-  email?: string | null;
-}) {
-  return (
-    <Avatar size="sm" className="size-8">
-      {image ? <AvatarImage src={image} alt="" /> : null}
-      <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
-        {initialsFrom(name, email)}
-      </AvatarFallback>
-    </Avatar>
-  );
-}
 
 type SidebarUserProps = {
   compact?: boolean;
@@ -45,6 +18,8 @@ type SidebarUserProps = {
 export function SidebarUser({ compact = false }: SidebarUserProps) {
   const router = useRouter();
   const user = useSessionUser();
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [personalizationOpen, setPersonalizationOpen] = useState(false);
   const displayName = user?.name.trim() || 'Account';
   const displayEmail = user?.email.trim() || 'Signed in';
 
@@ -54,35 +29,32 @@ export function SidebarUser({ compact = false }: SidebarUserProps) {
     });
   };
 
-  if (compact) {
-    return (
-      <div className="flex flex-col items-center gap-2 pb-1">
-        <ThemeToggle />
-        <UserAvatar image={user?.image} name={user?.name} email={user?.email} />
-      </div>
-    );
-  }
-
   return (
-    <div className="border-sidebar-border mt-auto border-t px-3 py-3">
-      <div className="flex items-center gap-2.5 rounded-xl px-1 py-1">
-        <UserAvatar image={user?.image} name={user?.name} email={user?.email} />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium tracking-tight">{displayName}</p>
-          <p className="text-muted-foreground truncate text-xs">{displayEmail}</p>
-        </div>
-        <ThemeToggle />
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label="Sign out"
-          className="text-muted-foreground hover:text-foreground"
-          onClick={handleSignOut}
+    <>
+      <div className={compact ? 'pb-1' : 'border-sidebar-border mt-auto border-t px-3 py-3'}>
+        <AccountMenu
+          align={compact ? 'center' : 'start'}
+          side="top"
+          onProfile={() => {
+            setProfileOpen(true);
+          }}
+          onPersonalization={() => {
+            setPersonalizationOpen(true);
+          }}
+          onSignOut={handleSignOut}
         >
-          <LogOut className="size-4" />
-        </Button>
+          <AccountTrigger
+            compact={compact}
+            image={user?.image}
+            name={user?.name}
+            email={user?.email}
+            displayName={displayName}
+            displayEmail={displayEmail}
+          />
+        </AccountMenu>
       </div>
-    </div>
+      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} user={user} />
+      <PersonalizationDialog open={personalizationOpen} onOpenChange={setPersonalizationOpen} />
+    </>
   );
 }

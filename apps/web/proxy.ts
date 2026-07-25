@@ -7,17 +7,13 @@ import {
   isAuthPath,
   safeCallbackUrl,
 } from '@/lib/constants';
-import { fetchSession } from '@/lib/session';
 
-export async function proxy(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const sessionCookie = getSessionCookie(request);
-  const isAuthenticated = sessionCookie
-    ? (await fetchSession(request.headers.get('cookie'), request.nextUrl.origin)) !== null
-    : false;
+  const hasSessionCookie = Boolean(getSessionCookie(request));
 
   if (isAuthPath(pathname)) {
-    if (!isAuthenticated) {
+    if (!hasSessionCookie) {
       return NextResponse.next();
     }
 
@@ -25,7 +21,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(callbackUrl ?? DEFAULT_REDIRECT_PATH, request.url));
   }
 
-  if (!isAuthenticated) {
+  if (!hasSessionCookie) {
     const loginUrl = new URL(DEFAULT_AUTH_REDIRECT_PATH, request.url);
     loginUrl.searchParams.set('callbackUrl', `${pathname}${search}`);
     return NextResponse.redirect(loginUrl);
