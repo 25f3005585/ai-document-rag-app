@@ -14,6 +14,7 @@ import { db } from '../../db/index.js';
 import * as schema from '../../db/schema/index.js';
 import { AUTH_RATE_LIMIT } from './rate-limit.js';
 import { sendResetPasswordEmailMessage, sendVerificationEmailMessage } from './send-email.js';
+import { AUTH_SESSION } from './session.js';
 
 const googleConfigured = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
 
@@ -25,23 +26,22 @@ export const auth = betterAuth({
     provider: 'pg',
     schema,
   }),
+  session: AUTH_SESSION,
   rateLimit: AUTH_RATE_LIMIT,
   trustedOrigins: [...new Set([WEB_URL, ...ALLOWED_ORIGINS])],
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
-    sendResetPassword: ({ user, url }) => {
-      sendResetPasswordEmailMessage(user.email, url);
-      return Promise.resolve();
+    sendResetPassword: async ({ user, url }) => {
+      await sendResetPasswordEmailMessage(user.email, url);
     },
   },
   emailVerification: {
     sendOnSignUp: true,
     sendOnSignIn: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: ({ user, url }) => {
-      sendVerificationEmailMessage(user.email, url);
-      return Promise.resolve();
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendVerificationEmailMessage(user.email, url);
     },
   },
   socialProviders: {

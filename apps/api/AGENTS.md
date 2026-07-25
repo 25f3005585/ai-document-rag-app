@@ -35,7 +35,7 @@ npm run format
 - Uses `tsx` for dev (not ts-node): `"tsx watch src/index.ts"`
 - Uses `rimraf` for cross-platform clean
 - Drizzle + `postgres` (postgres.js) — Neon pooler needs `prepare: false`
-- DB scripts: `pnpm db:push` / `pnpm db:generate` / `pnpm db:migrate` / `pnpm db:studio`
+- DB scripts: `pnpm db:push` / `pnpm db:generate` / `pnpm db:migrate` / `pnpm db:studio` / `pnpm db:clear`
 
 ## Repository Structure
 

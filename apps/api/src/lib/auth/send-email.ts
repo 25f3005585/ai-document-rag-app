@@ -16,34 +16,35 @@ interface SendEmailInput {
   react: ReactElement;
 }
 
-export const sendEmail = (input: SendEmailInput): void => {
-  void resend.emails
+export const sendEmail = async (input: SendEmailInput): Promise<void> => {
+  const result = await resend.emails
     .send({
       from: EMAIL_FROM,
       to: input.to,
       subject: input.subject,
       react: input.react,
     })
-    .then(({ error }) => {
-      if (error) {
-        logger.error({ err: error, to: input.to }, 'Failed to send email via Resend');
-      }
-    })
     .catch((error: unknown) => {
       logger.error({ err: error, to: input.to }, 'Resend email request failed');
+      throw error instanceof Error ? error : new Error('Failed to send email');
     });
+
+  if (result.error) {
+    logger.error({ err: result.error, to: input.to }, 'Failed to send email via Resend');
+    throw new Error(result.error.message);
+  }
 };
 
-export const sendVerificationEmailMessage = (to: string, url: string): void => {
-  sendEmail({
+export const sendVerificationEmailMessage = async (to: string, url: string): Promise<void> => {
+  await sendEmail({
     to,
     subject: `Verify your ${APP_NAME} email`,
     react: jsx(VerificationEmail, { url, siteUrl: WEB_URL }),
   });
 };
 
-export const sendResetPasswordEmailMessage = (to: string, url: string): void => {
-  sendEmail({
+export const sendResetPasswordEmailMessage = async (to: string, url: string): Promise<void> => {
+  await sendEmail({
     to,
     subject: `Reset your ${APP_NAME} password`,
     react: jsx(ResetPasswordEmail, { url, siteUrl: WEB_URL }),
