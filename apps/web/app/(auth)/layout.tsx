@@ -1,13 +1,17 @@
+import { getSessionCookie } from 'better-auth/cookies';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { getServerSession } from '@/lib/auth-server';
 import { DEFAULT_REDIRECT_PATH } from '@/lib/constants';
 
-/** Logged-in users should not sit on login/signup (validated session, not cookie alone). */
+/**
+ * Optimistic bounce for logged-in users — cookie presence only (no Express round-trip).
+ * `(app)` layout still validates the session for real.
+ */
 export default async function AuthGroupLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession();
+  const headerStore = await headers();
 
-  if (session?.user) {
+  if (getSessionCookie(headerStore)) {
     redirect(DEFAULT_REDIRECT_PATH);
   }
 

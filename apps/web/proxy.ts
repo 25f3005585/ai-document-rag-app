@@ -6,7 +6,7 @@ import { DEFAULT_AUTH_REDIRECT_PATH, isAuthPath } from '@/lib/constants';
 /**
  * Optimistic gate only — cookie presence, no network.
  * Auth pages are never bounced here (stale cookies after logout would loop).
- * Full session validation lives in `(app)` / `(auth)` layouts via getServerSession.
+ * Full session validation lives in `(app)` layout via getServerSession.
  */
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;

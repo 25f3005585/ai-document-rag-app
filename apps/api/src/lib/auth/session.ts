@@ -8,7 +8,7 @@ export const AUTH_SESSION = {
   updateAge: 60 * 60 * 24, // refresh expiry at most once per day
   cookieCache: {
     enabled: true,
-    maxAge: 5 * 60, // 5 minutes — short so revokes take effect soon
+    maxAge: 60 * 30, // 30 minutes — fewer Neon round-trips; revokes lag until expiry
     strategy: 'compact' as const, // smallest signed cookie; best for performance
   },
 } as const;
