@@ -25,7 +25,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
       <aside className="bg-muted relative hidden min-h-svh overflow-hidden lg:block">
         <Image
-          src="/auth-panel.png"
+          src="/auth-panel.jpg"
           alt="Open documents and books on a desk"
           fill
           priority

@@ -6,7 +6,8 @@ import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { ThemeToggle } from '@/components/chats/theme-toggle';
-import { authClient, signOut } from '@/lib/auth-client';
+import { useSessionUser } from '@/components/session-user-provider';
+import { signOut } from '@/lib/auth-client';
 import { DEFAULT_AUTH_REDIRECT_PATH } from '@/lib/constants';
 
 function initialsFrom(name?: string | null, email?: string | null): string {
@@ -43,10 +44,9 @@ type SidebarUserProps = {
 
 export function SidebarUser({ compact = false }: SidebarUserProps) {
   const router = useRouter();
-  const { data: session, isPending } = authClient.useSession();
-  const user = session?.user;
+  const user = useSessionUser();
   const displayName = user?.name.trim() || 'Account';
-  const displayEmail = user?.email.trim() || (isPending ? 'Loading…' : 'Signed in');
+  const displayEmail = user?.email.trim() || 'Signed in';
 
   const handleSignOut = () => {
     void signOut().then(() => {

@@ -4,20 +4,15 @@ import { TooltipProvider } from '@repo/ui/components/tooltip';
 import { cn } from '@repo/ui/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import localFont from 'next/font/local';
 
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/toaster';
 
+/** next/font downloads Inter at build time and serves it from this origin (no Google runtime hop). */
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
-});
-
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
 });
 
 export const metadata: Metadata = {
@@ -34,11 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn(inter.variable, geistMono.variable, 'font-sans')}
-    >
+    <html lang="en" suppressHydrationWarning className={cn(inter.variable, 'font-sans')}>
       <body className="bg-background font-sans text-foreground antialiased">
         <ThemeProvider
           attribute="class"

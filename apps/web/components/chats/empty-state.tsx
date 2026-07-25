@@ -2,7 +2,7 @@
 
 import { BookOpen, ListTree, Sparkles, TextSearch } from 'lucide-react';
 
-import { authClient } from '@/lib/auth-client';
+import { useSessionUser } from '@/components/session-user-provider';
 
 const SUGGESTIONS = [
   { prompt: 'Summarize the main argument', hint: 'Get a concise overview', icon: Sparkles },
@@ -16,8 +16,8 @@ type EmptyStateProps = {
 };
 
 export function EmptyState({ onSuggest }: EmptyStateProps) {
-  const { data: session } = authClient.useSession();
-  const firstName = session?.user.name.trim().split(/\s+/)[0] || 'there';
+  const user = useSessionUser();
+  const firstName = user?.name.trim().split(/\s+/)[0] || 'there';
 
   return (
     <div className="chat-rise-in flex w-full flex-col items-center text-center">
