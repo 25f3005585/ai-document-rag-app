@@ -12,7 +12,7 @@ import { useSidebarCollapsed } from '@/hooks/use-sidebar-collapsed';
 import type { SessionUser } from '@/lib/session-user';
 
 type AppShellProps = {
-  user: SessionUser | null;
+  user: SessionUser;
   children: React.ReactNode;
 };
 

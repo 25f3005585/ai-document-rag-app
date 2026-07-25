@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { AccountMenu } from '@/components/chats/account-menu';
 import { AccountTrigger } from '@/components/chats/account-trigger';
@@ -16,7 +16,6 @@ type SidebarUserProps = {
 };
 
 export function SidebarUser({ compact = false }: SidebarUserProps) {
-  const router = useRouter();
   const user = useSessionUser();
   const [profileOpen, setProfileOpen] = useState(false);
   const [personalizationOpen, setPersonalizationOpen] = useState(false);
@@ -24,8 +23,15 @@ export function SidebarUser({ compact = false }: SidebarUserProps) {
   const displayEmail = user?.email.trim() || 'Signed in';
 
   const handleSignOut = () => {
-    void signOut().then(() => {
-      router.replace(DEFAULT_AUTH_REDIRECT_PATH);
+    void signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.assign(DEFAULT_AUTH_REDIRECT_PATH);
+        },
+        onError: () => {
+          toast.error('Could not sign out. Please try again.');
+        },
+      },
     });
   };
 

@@ -1,3 +1,5 @@
+import { apiFetch } from '@/lib/api';
+
 const STORAGE_KEY = 'askdocs:personalization:v1';
 
 export const STYLE_OPTIONS = [
@@ -56,42 +58,71 @@ function asTrait(value: unknown): TraitOption {
   return TRAIT_OPTIONS.some((o) => o.value === value) ? (value as TraitOption) : 'default';
 }
 
-export function loadPersonalization(): PersonalizationPrefs {
+export function normalizePersonalization(value: unknown): PersonalizationPrefs {
+  if (!isRecord(value)) {
+    return DEFAULT_PERSONALIZATION;
+  }
+  return {
+    style: asStyle(value.style),
+    warm: asTrait(value.warm),
+    enthusiastic: asTrait(value.enthusiastic),
+    headersLists: asTrait(value.headersLists),
+    emoji: asTrait(value.emoji),
+    fastAnswers: typeof value.fastAnswers === 'boolean' ? value.fastAnswers : true,
+    customInstructions:
+      typeof value.customInstructions === 'string' ? value.customInstructions : '',
+    nickname: typeof value.nickname === 'string' ? value.nickname : '',
+    occupation: typeof value.occupation === 'string' ? value.occupation : '',
+    aboutYou: typeof value.aboutYou === 'string' ? value.aboutYou : '',
+  };
+}
+
+export function readCachedPersonalization(): PersonalizationPrefs {
   if (typeof window === 'undefined') {
     return DEFAULT_PERSONALIZATION;
   }
-
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return DEFAULT_PERSONALIZATION;
-    }
-    const parsed: unknown = JSON.parse(raw);
-    if (!isRecord(parsed)) {
-      return DEFAULT_PERSONALIZATION;
-    }
-    return {
-      style: asStyle(parsed.style),
-      warm: asTrait(parsed.warm),
-      enthusiastic: asTrait(parsed.enthusiastic),
-      headersLists: asTrait(parsed.headersLists),
-      emoji: asTrait(parsed.emoji),
-      fastAnswers: typeof parsed.fastAnswers === 'boolean' ? parsed.fastAnswers : true,
-      customInstructions:
-        typeof parsed.customInstructions === 'string' ? parsed.customInstructions : '',
-      nickname: typeof parsed.nickname === 'string' ? parsed.nickname : '',
-      occupation: typeof parsed.occupation === 'string' ? parsed.occupation : '',
-      aboutYou: typeof parsed.aboutYou === 'string' ? parsed.aboutYou : '',
-    };
+    return raw ? normalizePersonalization(JSON.parse(raw)) : DEFAULT_PERSONALIZATION;
   } catch {
     return DEFAULT_PERSONALIZATION;
   }
 }
 
-export function savePersonalization(prefs: PersonalizationPrefs): void {
+export function cachePersonalization(prefs: PersonalizationPrefs): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
   } catch {
     // Ignore quota / private mode failures.
   }
+}
+
+function isDefaultPrefs(prefs: PersonalizationPrefs): boolean {
+  return JSON.stringify(prefs) === JSON.stringify(DEFAULT_PERSONALIZATION);
+}
+
+export async function fetchPersonalization(): Promise<PersonalizationPrefs> {
+  const data = await apiFetch<{ prefs: PersonalizationPrefs }>('/api/me/preferences');
+  const remote = normalizePersonalization(data.prefs);
+  const local = readCachedPersonalization();
+
+  if (isDefaultPrefs(remote) && !isDefaultPrefs(local)) {
+    const migrated = await savePersonalizationRemote(local);
+    return migrated;
+  }
+
+  cachePersonalization(remote);
+  return remote;
+}
+
+export async function savePersonalizationRemote(
+  prefs: PersonalizationPrefs,
+): Promise<PersonalizationPrefs> {
+  const data = await apiFetch<{ prefs: PersonalizationPrefs }>('/api/me/preferences', {
+    method: 'PUT',
+    body: JSON.stringify(prefs),
+  });
+  const saved = normalizePersonalization(data.prefs);
+  cachePersonalization(saved);
+  return saved;
 }

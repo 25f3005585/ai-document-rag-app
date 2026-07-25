@@ -9,17 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@repo/ui/components/dialog';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
 import { PersonalizationAboutSection } from '@/components/chats/personalization-about-section';
 import { PersonalizationStyleSection } from '@/components/chats/personalization-style-section';
-import {
-  DEFAULT_PERSONALIZATION,
-  loadPersonalization,
-  type PersonalizationPrefs,
-  savePersonalization,
-} from '@/lib/personalization';
+import { usePersonalizationForm } from '@/components/chats/use-personalization-form';
 
 type PersonalizationDialogProps = {
   open: boolean;
@@ -27,23 +20,7 @@ type PersonalizationDialogProps = {
 };
 
 export function PersonalizationDialog({ open, onOpenChange }: PersonalizationDialogProps) {
-  const [prefs, setPrefs] = useState<PersonalizationPrefs>(DEFAULT_PERSONALIZATION);
-
-  useEffect(() => {
-    if (open) {
-      setPrefs(loadPersonalization());
-    }
-  }, [open]);
-
-  const patchPrefs = (patch: Partial<PersonalizationPrefs>) => {
-    setPrefs((current) => ({ ...current, ...patch }));
-  };
-
-  const handleSave = () => {
-    savePersonalization(prefs);
-    toast.success('Personalization saved');
-    onOpenChange(false);
-  };
+  const { prefs, loading, saving, patchPrefs, save } = usePersonalizationForm(open);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -59,8 +36,14 @@ export function PersonalizationDialog({ open, onOpenChange }: PersonalizationDia
         </DialogHeader>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          <PersonalizationStyleSection prefs={prefs} onChange={patchPrefs} />
-          <PersonalizationAboutSection prefs={prefs} onChange={patchPrefs} />
+          {loading ? (
+            <p className="text-muted-foreground text-sm">Loading preferences…</p>
+          ) : (
+            <>
+              <PersonalizationStyleSection prefs={prefs} onChange={patchPrefs} />
+              <PersonalizationAboutSection prefs={prefs} onChange={patchPrefs} />
+            </>
+          )}
         </div>
 
         <DialogFooter className="bg-muted/40 border-border m-0 shrink-0 rounded-none border-t px-5 py-3 sm:justify-end">
@@ -73,8 +56,16 @@ export function PersonalizationDialog({ open, onOpenChange }: PersonalizationDia
           >
             Cancel
           </Button>
-          <Button type="button" onClick={handleSave}>
-            Save
+          <Button
+            type="button"
+            disabled={loading || saving}
+            onClick={() => {
+              save(() => {
+                onOpenChange(false);
+              });
+            }}
+          >
+            {saving ? 'Saving…' : 'Save'}
           </Button>
         </DialogFooter>
       </DialogContent>
