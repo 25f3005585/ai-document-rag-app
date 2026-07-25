@@ -75,7 +75,8 @@ packages/
 - **Theme CSS** — shadcn tokens in `packages/ui/src/styles/globals.css`; `apps/web/app/globals.css` imports `@repo/ui/globals.css` and adds app-specific `@theme` / `@source`.
 - **Dark mode** — class-based via `next-themes` (`ThemeProvider` in `apps/web/components/theme-provider.tsx`).
 - **Tailwind CSS v4** — PostCSS via `@tailwindcss/postcss` in `postcss.config.mjs`; `next.config.js` sets `transpilePackages: ['@repo/ui']`.
-- **Agent workflow** — `.cursor/rules/web-development.mdc` requires reading `DESIGN.md` (repo root or `apps/web/`) when present, then React, Next.js, frontend-design, web-design-guidelines, tailwind-4-docs, and turborepo skills before writing web code.
+- **Design system** — `apps/web/DESIGN.md` is the required visual source of truth for all web UI (Notion warm-workspace). Agents must read it before any page/component/CSS work. See `apps/web/AGENTS.md` and `.cursor/rules/design-system.mdc`.
+- **Agent workflow** — `.cursor/rules/web-development.mdc`: read `apps/web/DESIGN.md` first, then React, Next.js, frontend-design, web-design-guidelines, tailwind-4-docs, and turborepo skills before writing web code.
 - `pnpm check-types` runs `next typegen && tsc --noEmit` — typegen runs first to generate `.next/types/**/*.ts`.
 
 ### Code style
@@ -86,7 +87,7 @@ packages/
 - Prettier: `semi: true`, `singleQuote: true`, `trailingComma: "all"`, `printWidth: 100`, `tabWidth: 2`.
 - TypeScript strict mode with `noUncheckedIndexedAccess: true`.
 - Unused variables allowed only with `_` prefix (Node config — API only).
-- `.cursor/rules/` — agents should follow: `code-quality` (always on), `api-architecture` (API), `web-development` + `web-structure` + `design-system` (web/React/Next.js).
+- `.cursor/rules/` — agents should follow: `code-quality` (always on), `api-architecture` (API), `web-development` + `web-structure` + `design-system` (web/React/Next.js). Web app detail: `apps/web/AGENTS.md` + `apps/web/DESIGN.md`.
 
 ## Gotchas
 

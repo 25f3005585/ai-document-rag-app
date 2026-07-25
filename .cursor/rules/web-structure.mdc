@@ -19,7 +19,8 @@ alwaysApply: false
 ## Styles
 
 - Tailwind CSS v4 utilities in markup; entrypoint is `app/globals.css`
-- Shared tokens in `:root` / `@theme`; page-specific values use arbitrary utilities first
+- Visual tokens come from `apps/web/DESIGN.md` — map into `:root` / `@theme`; do not invent a parallel palette
+- Page-specific values use arbitrary utilities first
 - Extract `@utility` or `@layer components` only for stable, repeated primitives
 
 ## Boundaries
