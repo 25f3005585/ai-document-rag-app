@@ -1,0 +1,15 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@repo/ui/components/*": ["./src/components/*"],
+      "@repo/ui/hooks/*": ["./src/hooks/*"],
+      "@repo/ui/lib/*": ["./src/lib/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

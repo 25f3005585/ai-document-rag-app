@@ -1,0 +1,31 @@
+{
+  "name": "next-express-starter",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "check-types": "turbo run check-types",
+    "start": "turbo run start",
+    "validate": "turbo run lint format:check check-types",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,md,css,yml,yaml}": "prettier --write"
+  },
+  "prettier": "@repo/prettier-config",
+  "devDependencies": {
+    "@repo/prettier-config": "workspace:*",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.7.4",
+    "turbo": "^2.9.17",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=18.12"
+  }
+}

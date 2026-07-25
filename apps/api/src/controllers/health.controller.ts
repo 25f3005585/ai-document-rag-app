@@ -1,0 +1,63 @@
+import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+import os from 'os';
+
+import { NODE_ENV, READINESS_MEMORY_THRESHOLD } from '../config/env.js';
+import { AppError } from '../core/errors/AppError.js';
+import { ERROR_CODES } from '../core/errors/errorCodes.js';
+import { SuccessResponse } from '../core/responses/SuccessResponse.js';
+
+export const getHealth = (req: Request, res: Response): Response => {
+  const databaseConnected = mongoose.connection.readyState === mongoose.ConnectionStates.connected;
+  const memoryUsage = process.memoryUsage();
+
+  const payload = {
+    uptime: process.uptime(),
+    environment: NODE_ENV,
+    services: {
+      database: databaseConnected ? 'connected' : 'disconnected',
+    },
+    system: {
+      cpu: {
+        cores: os.cpus().length,
+      },
+      memory: {
+        used: Math.round(memoryUsage.heapUsed / 1024 / 1024),
+        total: Math.round(memoryUsage.heapTotal / 1024 / 1024),
+        usagePercent: Math.round((memoryUsage.heapUsed / memoryUsage.heapTotal) * 100),
+      },
+    },
+  };
+
+  if (!databaseConnected) {
+    throw new AppError('Health check failed', 503, ERROR_CODES.SERVICE_UNAVAILABLE, [
+      { field: 'database', message: 'Database is not connected' },
+    ]);
+  }
+
+  return new SuccessResponse('Health check passed', payload).send(req, res);
+};
+
+export const getLiveness = (req: Request, res: Response): Response => {
+  return new SuccessResponse('Service is alive', { status: 'alive' }).send(req, res);
+};
+
+export const getReadiness = (req: Request, res: Response): Response => {
+  const databaseConnected = mongoose.connection.readyState === mongoose.ConnectionStates.connected;
+  const memoryUsage = process.memoryUsage();
+  const memoryPercent = (memoryUsage.heapUsed / memoryUsage.heapTotal) * 100;
+
+  if (!databaseConnected) {
+    throw new AppError('Service is not ready', 503, ERROR_CODES.SERVICE_UNAVAILABLE, [
+      { field: 'database', message: 'Database is not connected' },
+    ]);
+  }
+
+  if (memoryPercent > READINESS_MEMORY_THRESHOLD) {
+    throw new AppError('Service is not ready', 503, ERROR_CODES.SERVICE_UNAVAILABLE, [
+      { field: 'memory', message: 'Memory usage too high' },
+    ]);
+  }
+
+  return new SuccessResponse('Service is ready', { status: 'ready' }).send(req, res);
+};
