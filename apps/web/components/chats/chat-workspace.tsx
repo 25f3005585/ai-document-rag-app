@@ -39,14 +39,14 @@ export function ChatEmptyWorkspace({
 
 export function ChatThreadWorkspace({ title, messages, isGenerating, onSend }: ChatWorkspaceProps) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="flex min-h-0 w-full flex-1 flex-col">
       <ChatHeader title={title} />
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="min-h-0 w-full flex-1 overflow-y-auto">
         <MessageList messages={messages} isGenerating={isGenerating} />
       </div>
-      <div className="relative shrink-0 pt-3 pb-6 md:pb-8">
-        <div className="from-background pointer-events-none absolute inset-x-0 -top-12 h-12 bg-gradient-to-t to-transparent" />
-        <div className={CHAT_COLUMN}>
+      <div className="relative w-full shrink-0 pb-5 md:pb-6">
+        <div className="from-background pointer-events-none absolute inset-x-0 -top-10 h-10 bg-gradient-to-t to-transparent" />
+        <div className={`${CHAT_COLUMN} pt-2`}>
           <Composer disabled={isGenerating} onSend={onSend} />
         </div>
       </div>

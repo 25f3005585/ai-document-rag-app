@@ -19,12 +19,14 @@ export function MessageList({ messages, isGenerating }: MessageListProps) {
   }, [messages.length, isGenerating]);
 
   return (
-    <div className={`${CHAT_COLUMN} flex flex-col gap-8 py-8 md:gap-10 md:py-10`}>
-      {messages.map((message) => (
-        <MessageItem key={message.id} message={message} />
-      ))}
-      {isGenerating ? <TypingIndicator /> : null}
-      <div ref={endRef} className="h-2" />
+    <div className="w-full">
+      <div className={`${CHAT_COLUMN} flex flex-col gap-7 py-6 md:gap-8 md:py-8`}>
+        {messages.map((message) => (
+          <MessageItem key={message.id} message={message} />
+        ))}
+        {isGenerating ? <TypingIndicator /> : null}
+        <div ref={endRef} className="h-2" />
+      </div>
     </div>
   );
 }

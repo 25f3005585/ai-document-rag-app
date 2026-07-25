@@ -55,7 +55,7 @@ export function Sidebar({
           </>
         ) : (
           <>
-            <div className="px-3 pb-3">
+            <div className="px-4 pb-6">
               <Button
                 type="button"
                 variant="outline"
@@ -66,7 +66,7 @@ export function Sidebar({
                 New chat
               </Button>
             </div>
-            <p className="text-muted-foreground px-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] uppercase">
+            <p className="text-muted-foreground px-5 pb-1 text-[11px] font-semibold tracking-[0.08em] uppercase">
               Recent
             </p>
             <ChatList onNavigate={onNavigate} />

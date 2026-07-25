@@ -31,15 +31,19 @@ export function ChatRow({ chat, onNavigate }: ChatRowProps) {
   };
 
   return (
-    <div className="group relative">
+    <div
+      className={cn(
+        'group flex items-center gap-0.5 rounded-lg transition-colors',
+        isActive ? 'bg-muted' : 'hover:bg-muted/60',
+      )}
+    >
       <Link
         href={`/chats/${chat.id}`}
         onClick={onNavigate}
         className={cn(
-          'relative flex items-center gap-2.5 rounded-xl py-2 pr-9 pl-2.5 text-sm transition-colors',
-          'text-sidebar-foreground/90 hover:bg-black/[0.04] dark:hover:bg-white/[0.05]',
-          'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
-          isActive && 'bg-black/[0.06] font-medium dark:bg-white/[0.08]',
+          'flex min-w-0 flex-1 items-center gap-2.5 px-3 py-2.5 text-sm',
+          'focus-visible:ring-ring rounded-lg focus-visible:ring-2 focus-visible:outline-none',
+          isActive ? 'text-foreground font-medium' : 'text-sidebar-foreground/90',
         )}
       >
         <MessageSquare className="text-muted-foreground size-3.5 shrink-0" aria-hidden />
@@ -51,7 +55,7 @@ export function ChatRow({ chat, onNavigate }: ChatRowProps) {
         size="icon-xs"
         aria-label={`Delete ${chat.title}`}
         className={cn(
-          'text-muted-foreground absolute top-1/2 right-1 -translate-y-1/2 opacity-0 transition-opacity',
+          'text-muted-foreground mr-1.5 shrink-0 opacity-0 transition-opacity',
           'hover:text-foreground group-hover:opacity-100 focus-visible:opacity-100',
           isActive && 'opacity-100',
         )}

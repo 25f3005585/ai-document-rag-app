@@ -1,19 +1,20 @@
-import { CHAT_COLUMN } from '@/lib/chats/layout';
+'use client';
+
+import { ThemeToggle } from '@/components/chats/theme-toggle';
 
 type ChatHeaderProps = {
   title: string;
 };
 
+/** Squigglr-style top bar: full-bleed, title left, actions right. */
 export function ChatHeader({ title }: ChatHeaderProps) {
   return (
-    <header className="border-border/70 bg-background/75 supports-backdrop-filter:backdrop-blur-md sticky top-0 z-10 border-b py-3">
-      <div className={CHAT_COLUMN}>
-        <p className="text-muted-foreground text-[11px] font-semibold tracking-[0.08em] uppercase">
-          Conversation
-        </p>
-        <h1 className="text-foreground truncate text-[15px] font-semibold tracking-tight">
-          {title}
-        </h1>
+    <header className="border-border/70 bg-background/80 supports-backdrop-filter:backdrop-blur-md sticky top-0 z-10 flex h-14 shrink-0 items-center justify-between gap-4 border-b px-4 md:px-6">
+      <h1 className="text-foreground min-w-0 flex-1 truncate text-[15px] font-semibold tracking-tight">
+        {title}
+      </h1>
+      <div className="flex shrink-0 items-center gap-1">
+        <ThemeToggle />
       </div>
     </header>
   );

@@ -64,8 +64,8 @@ export function SidebarUser({ compact = false }: SidebarUserProps) {
   }
 
   return (
-    <div className="border-sidebar-border mt-auto border-t p-2.5">
-      <div className="flex items-center gap-2 rounded-xl p-1.5">
+    <div className="border-sidebar-border mt-auto border-t px-3 py-3">
+      <div className="flex items-center gap-2.5 rounded-xl px-1 py-1">
         <UserAvatar image={user?.image} name={user?.name} email={user?.email} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium tracking-tight">{displayName}</p>

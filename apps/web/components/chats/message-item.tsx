@@ -13,7 +13,7 @@ export function MessageItem({ message }: MessageItemProps) {
   if (isUser) {
     return (
       <article className="chat-fade-in flex w-full justify-end">
-        <div className="bg-secondary/80 text-foreground max-w-[min(100%,34rem)] rounded-[18px] rounded-br-md px-4 py-3 text-[15px] leading-relaxed">
+        <div className="bg-secondary/80 text-foreground max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-[15px] leading-relaxed">
           <p className="whitespace-pre-wrap">{message.content}</p>
         </div>
       </article>

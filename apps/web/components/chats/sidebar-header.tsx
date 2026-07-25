@@ -27,7 +27,7 @@ export function SidebarHeader({ collapsed, onNavigate, onToggleCollapse }: Sideb
   }
 
   return (
-    <div className="flex w-full items-center gap-2 px-3 pt-4 pb-3">
+    <div className="flex w-full items-center gap-2 px-4 pt-5 pb-4">
       <Link
         href="/chats"
         onClick={onNavigate}
