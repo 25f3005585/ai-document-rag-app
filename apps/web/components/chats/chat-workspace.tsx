@@ -45,7 +45,7 @@ export function ChatThreadWorkspace({ title, messages, isGenerating, onSend }: C
         <MessageList messages={messages} isGenerating={isGenerating} />
       </div>
       <div className="relative w-full shrink-0 pb-5 md:pb-6">
-        <div className="from-background pointer-events-none absolute inset-x-0 -top-10 h-10 bg-gradient-to-t to-transparent" />
+        <div className="from-background pointer-events-none absolute inset-x-0 -top-10 h-10 bg-linear-to-t to-transparent" />
         <div className={`${CHAT_COLUMN} pt-2`}>
           <Composer disabled={isGenerating} onSend={onSend} />
         </div>

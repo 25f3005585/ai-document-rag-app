@@ -9,17 +9,26 @@ import { COMPOSER_MAX_CHARS } from '@/components/chats/use-composer-field';
 type ComposerFooterProps = {
   valueLength: number;
   canSend: boolean;
+  disabled?: boolean;
+  onAttach: () => void;
   onSend: () => void;
 };
 
-export function ComposerFooter({ valueLength, canSend, onSend }: ComposerFooterProps) {
+export function ComposerFooter({
+  valueLength,
+  canSend,
+  disabled = false,
+  onAttach,
+  onSend,
+}: ComposerFooterProps) {
   return (
     <div className="mt-3 flex items-center justify-between gap-3">
       <button
         type="button"
-        disabled
-        title="Coming soon"
-        className="text-muted-foreground inline-flex h-8 items-center gap-1.5 rounded-lg px-1.5 text-[12px] opacity-70"
+        disabled={disabled}
+        aria-label="Add attachment"
+        className="text-muted-foreground hover:text-foreground inline-flex h-8 items-center gap-1.5 rounded-lg px-1.5 text-[12px] transition-colors disabled:pointer-events-none disabled:opacity-50"
+        onClick={onAttach}
       >
         <Paperclip className="size-3.5" />
         <span className="hidden sm:inline">Add Attachment</span>

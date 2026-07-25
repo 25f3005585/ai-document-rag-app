@@ -2,10 +2,15 @@
 
 import { type KeyboardEvent, useEffect, useRef, useState } from 'react';
 
-const MAX_HEIGHT_PX = 140;
+const MIN_HEIGHT_PX = 88;
+const MAX_HEIGHT_PX = 280;
 export const COMPOSER_MAX_CHARS = 1000;
 
-export function useComposerField(onSend: (content: string) => void, disabled: boolean) {
+export function useComposerField(
+  onSend: (content: string) => void,
+  disabled: boolean,
+  onSubmitted?: () => void,
+) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const canSend = value.trim().length > 0 && !disabled && value.length <= COMPOSER_MAX_CHARS;
@@ -16,7 +21,8 @@ export function useComposerField(onSend: (content: string) => void, disabled: bo
       return;
     }
     el.style.height = 'auto';
-    el.style.height = `${String(Math.min(el.scrollHeight, MAX_HEIGHT_PX))}px`;
+    const next = Math.min(Math.max(el.scrollHeight, MIN_HEIGHT_PX), MAX_HEIGHT_PX);
+    el.style.height = `${String(next)}px`;
   }, [value]);
 
   const submit = () => {
@@ -26,6 +32,7 @@ export function useComposerField(onSend: (content: string) => void, disabled: bo
     const next = value.trim();
     setValue('');
     onSend(next);
+    onSubmitted?.();
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
