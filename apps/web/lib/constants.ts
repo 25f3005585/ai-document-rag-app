@@ -4,7 +4,7 @@ export const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000
 /** Must match API Google OAuth env — hide the button when unset. */
 export const GOOGLE_AUTH_ENABLED = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true';
 
-export const DEFAULT_REDIRECT_PATH = '/';
+export const DEFAULT_REDIRECT_PATH = '/chats';
 export const DEFAULT_AUTH_REDIRECT_PATH = '/login';
 export const VERIFY_EMAIL_PATH = '/verify-email';
 export const FORGOT_PASSWORD_PATH = '/forgot-password';
