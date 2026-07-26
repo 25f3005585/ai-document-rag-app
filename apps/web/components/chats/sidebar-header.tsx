@@ -4,6 +4,8 @@ import { Button } from '@repo/ui/components/button';
 import { PanelLeft, PanelLeftClose, Plus } from 'lucide-react';
 import Link from 'next/link';
 
+import { BrandMark } from '@/components/brand-mark';
+
 type SidebarHeaderProps = {
   collapsed: boolean;
   onNavigate?: () => void;
@@ -28,16 +30,7 @@ export function SidebarHeader({ collapsed, onNavigate, onToggleCollapse }: Sideb
 
   return (
     <div className="flex w-full items-center gap-2 px-4 pt-5 pb-4">
-      <Link
-        href="/"
-        onClick={onNavigate}
-        className="text-foreground flex min-w-0 flex-1 items-center gap-2.5 text-sm font-semibold tracking-tight"
-      >
-        <span className="bg-foreground text-background flex size-7 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold">
-          A
-        </span>
-        AskDocs
-      </Link>
+      <BrandMark onClick={onNavigate} className="min-w-0 flex-1" />
       {onToggleCollapse ? (
         <Button
           type="button"
