@@ -19,17 +19,17 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
   }
 
   return (
-    <ul className={`${authHelperClass} -mt-1 space-y-1.5`}>
+    <ul className={`${authHelperClass} -mt-0.5 grid grid-cols-1 gap-1 sm:grid-cols-2`}>
       {checks.map((check) => {
         const passed = check.test(password);
         return (
-          <li key={check.key} className="flex items-center gap-2">
+          <li key={check.key} className="flex items-center gap-1.5">
             {passed ? (
-              <Check className="text-foreground/70 size-3.5 shrink-0" />
+              <Check className="text-primary size-3.5 shrink-0" aria-hidden />
             ) : (
-              <X className="text-muted-foreground/60 size-3.5 shrink-0" />
+              <X className="text-muted-foreground/55 size-3.5 shrink-0" aria-hidden />
             )}
-            <span className={passed ? 'text-foreground/80' : 'text-muted-foreground'}>
+            <span className={passed ? 'text-foreground/85' : 'text-muted-foreground'}>
               {check.label}
             </span>
           </li>

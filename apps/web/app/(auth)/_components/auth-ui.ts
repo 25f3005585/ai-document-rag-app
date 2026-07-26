@@ -1,9 +1,9 @@
 /** Shared auth UI tokens for consistent login/signup forms. */
-export const authFormClass = 'mx-auto flex w-full max-w-[360px] flex-col gap-6';
+export const authFormClass = 'mx-auto flex w-full max-w-[360px] flex-col gap-4';
 
-export const authFieldsClass = 'flex flex-col gap-4';
+export const authFieldsClass = 'flex flex-col gap-3';
 
-export const authFieldClass = 'gap-1.5';
+export const authFieldClass = 'gap-1';
 
 export const authLabelClass = 'text-sm font-medium text-muted-foreground';
 

@@ -5,9 +5,9 @@ interface AuthFormHeaderProps {
 
 export function AuthFormHeader({ title, description }: AuthFormHeaderProps) {
   return (
-    <div className="flex flex-col gap-2 text-center">
+    <div className="flex flex-col gap-1.5 text-center">
       <h1 className="text-foreground text-xl font-semibold tracking-tight">{title}</h1>
-      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+      <p className="text-muted-foreground text-sm leading-snug">{description}</p>
     </div>
   );
 }

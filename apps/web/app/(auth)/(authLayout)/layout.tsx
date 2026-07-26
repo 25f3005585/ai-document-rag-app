@@ -1,29 +1,22 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type React from 'react';
+
+import { BrandMark } from '@/components/brand-mark';
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex min-h-svh flex-col">
-        <header className="flex shrink-0 items-center p-6 md:px-8 md:pt-8">
-          <Link
-            href="/"
-            className="text-foreground flex items-center gap-2.5 text-sm font-semibold tracking-tight"
-          >
-            <span className="bg-foreground text-background flex size-7 items-center justify-center rounded-md text-xs font-bold">
-              A
-            </span>
-            AskDocs
-          </Link>
+    <div className="grid h-svh overflow-hidden lg:grid-cols-2">
+      <div className="flex min-h-0 flex-col overflow-hidden">
+        <header className="flex shrink-0 items-center px-6 pt-5 pb-2 md:px-8 md:pt-6">
+          <BrandMark />
         </header>
 
-        <main className="flex flex-1 items-center justify-center px-6 py-10 md:px-8">
+        <main className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-6 py-4 md:px-8">
           {children}
         </main>
       </div>
 
-      <aside className="bg-muted relative hidden min-h-svh overflow-hidden lg:block">
+      <aside className="bg-muted relative hidden overflow-hidden lg:block">
         <Image
           src="/auth-panel.jpg"
           alt="Open documents and books on a desk"
@@ -33,12 +26,6 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/35" />
-        {/* <div className="absolute inset-x-0 bottom-0 p-10">
-          <p className="text-sm font-semibold tracking-tight text-white">AskDocs</p>
-          <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-white/75">
-            Ask questions grounded in your documents.
-          </p>
-        </div> */}
       </aside>
     </div>
   );

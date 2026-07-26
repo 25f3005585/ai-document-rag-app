@@ -45,7 +45,7 @@ export function SocialProviders({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <div className="relative flex items-center gap-3">
         <Separator className="flex-1" />
         <span className={`${authHelperClass} shrink-0`}>Or continue with</span>

@@ -42,10 +42,7 @@ export function SignupForm({
       }}
       {...props}
     >
-      <AuthFormHeader
-        title="Create your account"
-        description="Fill in the form below to create your account"
-      />
+      <AuthFormHeader title="Create your account" description="Enter your details to get started" />
 
       <SignupFields
         register={register}
