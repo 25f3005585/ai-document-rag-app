@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@repo/ui/components/dialog';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { useEffect, useState } from 'react';
 
 import { ProfileDialogFields } from '@/components/chats/profile-dialog-fields';

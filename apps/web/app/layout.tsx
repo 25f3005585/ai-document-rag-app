@@ -4,6 +4,7 @@ import { TooltipProvider } from '@repo/ui/components/tooltip';
 import { cn } from '@repo/ui/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/toaster';
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={cn(inter.variable, 'font-sans')}>
       <body className="bg-background font-sans text-foreground antialiased">
+        <NextTopLoader color="#0075de" height={2} showSpinner={false} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -3,7 +3,7 @@
 import { Button } from '@repo/ui/components/button';
 import { cn } from '@repo/ui/lib/utils';
 import { Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import { ChatList } from '@/components/chats/chat-list';
 import { CollapsedSidebarActions, SidebarHeader } from '@/components/chats/sidebar-header';

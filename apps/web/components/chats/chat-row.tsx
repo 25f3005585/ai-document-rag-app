@@ -3,7 +3,8 @@
 import { cn } from '@repo/ui/lib/utils';
 import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { useState } from 'react';
 
 import { ChatRowMenu } from '@/components/chats/chat-row-menu';

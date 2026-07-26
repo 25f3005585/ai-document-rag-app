@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import { ChatEmptyWorkspace, ChatThreadWorkspace } from '@/components/chats/chat-workspace';
 import { useChatStore } from '@/lib/chats/store';
