@@ -19,7 +19,7 @@ const USE_CASES = [
 
 export function LandingUseCases() {
   return (
-    <section className="bg-card border-border/70 border-b">
+    <section className="border-border/70 border-b">
       <div className="mx-auto max-w-6xl px-6 py-20 md:px-8 md:py-24">
         <div className="max-w-2xl">
           <h2 className="text-foreground text-[32px] leading-[1.15] font-bold tracking-[-0.035em] md:text-[40px] md:tracking-[-0.04em]">
@@ -33,10 +33,7 @@ export function LandingUseCases() {
 
         <ul className="mt-14 grid gap-6 sm:grid-cols-2">
           {USE_CASES.map((item) => (
-            <li
-              key={item.title}
-              className="border-border bg-background rounded-xl border p-6 md:p-7"
-            >
+            <li key={item.title} className="border-border bg-card rounded-xl border p-6 md:p-7">
               <h3 className="text-foreground text-[18px] font-semibold tracking-tight">
                 {item.title}
               </h3>

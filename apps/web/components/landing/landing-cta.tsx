@@ -8,8 +8,8 @@ import {
 
 export function LandingCta() {
   return (
-    <section className="border-border/70 bg-muted/40 border-b">
-      <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 px-6 py-20 md:flex-row md:items-center md:justify-between md:px-8 md:py-24">
+    <section className="border-border/70 border-b">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-6 py-20 text-center md:px-8 md:py-24">
         <div className="max-w-xl">
           <h2 className="text-foreground text-[32px] leading-[1.15] font-bold tracking-[-0.035em] md:text-[40px] md:tracking-[-0.04em]">
             Ready to ask your first document?
@@ -20,7 +20,7 @@ export function LandingCta() {
           </p>
         </div>
 
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild className={landingPrimaryBtnClass}>
             <Link href="/signup">Get started free</Link>
           </Button>
