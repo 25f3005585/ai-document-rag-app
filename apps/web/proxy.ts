@@ -1,17 +1,18 @@
 import { getSessionCookie } from 'better-auth/cookies';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { DEFAULT_AUTH_REDIRECT_PATH, isAuthPath } from '@/lib/constants';
+import { DEFAULT_AUTH_REDIRECT_PATH } from '@/lib/constants';
+import { isPublicPath } from '@/lib/public-paths';
 
 /**
  * Optimistic gate only — cookie presence, no network.
- * Auth pages are never bounced here (stale cookies after logout would loop).
+ * Public routes (landing + auth) are never bounced here.
  * Full session validation lives in `(app)` layout via getServerSession.
  */
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  if (isAuthPath(pathname)) {
+  if (isPublicPath(pathname)) {
     return NextResponse.next();
   }
 

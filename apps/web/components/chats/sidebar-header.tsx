@@ -15,7 +15,7 @@ export function SidebarHeader({ collapsed, onNavigate, onToggleCollapse }: Sideb
     return (
       <div className="flex w-full flex-col items-center gap-2 pt-1 pb-2">
         <Link
-          href="/chats"
+          href="/"
           onClick={onNavigate}
           aria-label="AskDocs home"
           className="bg-foreground text-background flex size-8 items-center justify-center rounded-xl text-[11px] font-bold"
@@ -29,7 +29,7 @@ export function SidebarHeader({ collapsed, onNavigate, onToggleCollapse }: Sideb
   return (
     <div className="flex w-full items-center gap-2 px-4 pt-5 pb-4">
       <Link
-        href="/chats"
+        href="/"
         onClick={onNavigate}
         className="text-foreground flex min-w-0 flex-1 items-center gap-2.5 text-sm font-semibold tracking-tight"
       >

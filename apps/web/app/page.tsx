@@ -1,7 +1,13 @@
-import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
 
-import { DEFAULT_REDIRECT_PATH } from '@/lib/constants';
+import { LandingPage } from '@/components/landing/landing-page';
+
+export const metadata: Metadata = {
+  title: 'AskDocs',
+  description:
+    'Upload PDFs, Word docs, and more — then ask questions in chat and get answers grounded in your files.',
+};
 
 export default function Page() {
-  redirect(DEFAULT_REDIRECT_PATH);
+  return <LandingPage />;
 }
